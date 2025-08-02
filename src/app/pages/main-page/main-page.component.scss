@@ -1,0 +1,31 @@
+.main {
+  background-color: var(--dark-color);
+  display: grid;
+  grid-template-areas: "header header" "aside main";
+  grid-template-columns: 250px 1fr;
+  grid-template-rows: auto 1fr;
+  height: 100vh;
+}
+
+.main__header {
+  grid-area: header;
+}
+
+.main__aside {
+  grid-area: aside;
+}
+
+.main__table {
+  grid-area: main;
+}
+
+.main__aside,
+.main__table {
+  height: 100%;
+}
+
+.main__aside,
+.main__table,
+.main__header {
+  outline: 1px solid var(--black);
+}

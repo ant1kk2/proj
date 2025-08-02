@@ -1,0 +1,26 @@
+.btn {
+  padding: 5px 10px;
+  border: 1px solid var(--light-color);
+  border-radius: 4px;
+  transition-duration: 0.2s;
+}
+
+.btn:hover {
+  background-color: var(--yellow-color);
+  color: var(--dark-color);
+}
+
+.btn:active {
+  background-color: var(--blue-color);
+  color: var(--light-color);
+}
+
+.list-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  line-height: 0.1px;
+}

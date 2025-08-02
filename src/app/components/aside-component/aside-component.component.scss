@@ -1,0 +1,23 @@
+.aside {
+  padding: 10px 20px;
+}
+
+.aside__btns {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 5px;
+  align-items: center;
+}
+
+.aside__item {
+  overflow: hidden;
+  margin-bottom: 5px;
+}
+
+.aside__item:last-child{
+  margin-bottom: 0;
+}
+
+.aside__list {
+  transition: max-height .2s linear;
+}
