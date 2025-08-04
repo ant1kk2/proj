@@ -10,5 +10,5 @@ export interface Instruction {
   path_word: string | null;
   w_title: string;
   d_title: string;
-  g_title: string
+  g_title?: string;
 }

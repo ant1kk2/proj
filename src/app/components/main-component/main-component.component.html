@@ -33,10 +33,10 @@
         <td class="table__cell">{{ i.number }}</td>
         <td class="table__cell">{{ i.title }}</td>
         <td class="table__cell">{{ i.date | date }}</td>
-        <td class="table__cell">{{ i.g_title }}</td>
+        <td class="table__cell">
+          <ng-content>{{ i.g_title !== 'null' ? i.g_title : i.d_title }}</ng-content>
+        </td>
       </tr>
     }
-
-
   </tbody>
 </table>
