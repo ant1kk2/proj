@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {HeaderComponentComponent} from '../../components/header-component/header-component.component';
 import {AsideComponentComponent} from '../../components/aside-component/aside-component.component';
 import {MainComponentComponent} from '../../components/main-component/main-component.component';
+import {Instruction} from '../../interfaces/instruction';
 
 @Component({
   selector: 'app-main-page',
@@ -14,5 +15,5 @@ import {MainComponentComponent} from '../../components/main-component/main-compo
   styleUrl: './main-page.component.scss'
 })
 export class MainPageComponent {
-
+  instructions: Instruction[] = [];
 }

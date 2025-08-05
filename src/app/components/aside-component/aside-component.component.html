@@ -10,9 +10,9 @@
             >
               +
             </app-ui-button>
-            <app-ui-button>{{ w.title }}</app-ui-button>
+            <app-ui-button (btnClick)="showInstructionsByWorkshop(w.title)">{{ w.title }}</app-ui-button>
           } @else {
-            <app-ui-button>{{ w.title }}</app-ui-button>
+            <app-ui-button (btnClick)="showInstructionsByWorkshop(w.title)">{{ w.title }}</app-ui-button>
           }
         </div>
         <ul class="aside__list" style="max-height: 0">
@@ -27,9 +27,9 @@
                   >
                     -
                   </app-ui-button>
-                  <app-ui-button>{{ d.title }}</app-ui-button>
+                  <app-ui-button (btnClick)="showInstructionsByDepartment(d.title, w.title)">{{ d.title }}</app-ui-button>
                 } @else {
-                  <app-ui-button style="margin-left: 58px">
+                  <app-ui-button style="margin-left: 58px" (btnClick)="showInstructionsByDepartment(d.title, w.title)">
                     {{ d.title }}
                   </app-ui-button>
                 }
@@ -37,7 +37,7 @@
               <ul class="aside__list">
                 @for (g of d.groups; track g.id) {
                   <li class="aside__item">
-                    <app-ui-button style="margin-left: 80px">
+                    <app-ui-button style="margin-left: 80px" (btnClick)="showInstructionsByGroup(g.title, d.title, w.title)">
                       {{ g.title }}
                     </app-ui-button>
                   </li>

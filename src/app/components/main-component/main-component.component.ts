@@ -1,6 +1,5 @@
-import {Component, inject} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {UiButtonComponent} from '../../UIComponents/ui-button/ui-button.component';
-import {InstructionsService} from '../../services/instructions.service';
 import {Instruction} from '../../interfaces/instruction';
 import {DatePipe} from '@angular/common';
 
@@ -14,11 +13,5 @@ import {DatePipe} from '@angular/common';
   styleUrl: './main-component.component.scss'
 })
 export class MainComponentComponent {
-  instructionsService: InstructionsService = inject(InstructionsService);
-  instructions: Instruction[] = [];
-
-  constructor() {
-    this.instructionsService
-      .getInstructions().subscribe((instructions: Instruction[]): Instruction[] => (this.instructions = instructions))
-  }
+  @Input() instructions!: Instruction[];
 }

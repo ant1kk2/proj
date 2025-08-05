@@ -1,5 +1,7 @@
 <main class="main">
   <app-header-component class="main__header"></app-header-component>
-  <app-aside-component class="main__aside"></app-aside-component>
-  <app-main-component class="main__table"></app-main-component>
+  <app-aside-component class="main__aside"
+                       [instructions]="instructions"
+                       (instructionsChange)="instructions = $event"></app-aside-component>
+  <app-main-component class="main__table" [instructions]="instructions"></app-main-component>
 </main>
