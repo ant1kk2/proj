@@ -1,10 +1,5 @@
 const db = require("../config/dbConfig");
 
-const path = require('path');
-
-
-
-
 const getInstructions = (req, res) => {
   const sql = `SELECT *
                FROM db.instructions

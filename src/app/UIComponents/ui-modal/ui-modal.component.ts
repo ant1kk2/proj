@@ -1,4 +1,4 @@
-import {Component, EventEmitter, input, Input, model, output, Output} from '@angular/core';
+import {Component, input, model} from '@angular/core';
 import {UiButtonComponent} from '../ui-button/ui-button.component';
 
 @Component({
