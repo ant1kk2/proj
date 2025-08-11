@@ -1,5 +1,9 @@
-import {InstructionsByWorkshopService, instructionsByDepartmentService, instructionsByGroupService} from '../../services/instructions.service';
-import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
+import {
+  InstructionsByWorkshopService,
+  instructionsByDepartmentService,
+  instructionsByGroupService
+} from '../../services/instructions.service';
+import {Component, inject, model} from '@angular/core';
 import {AsideDataService} from '../../services/asideData.service';
 import {Workshop} from '../../interfaces/asideData';
 import {hideSublist} from '../../helpers/hideSublist';
@@ -11,6 +15,7 @@ import {Instruction} from '../../interfaces/instruction';
   imports: [UiButtonComponent],
   templateUrl: './aside-component.component.html',
   styleUrl: './aside-component.component.scss',
+  standalone: true
 })
 export class AsideComponentComponent {
   asideDataService: AsideDataService = inject(AsideDataService);
@@ -18,7 +23,8 @@ export class AsideComponentComponent {
 
   hideSublist: (e: MouseEvent) => void = hideSublist;
 
-  @Input() instructions!: Instruction[];
+  instructions = model<Instruction[]>([]);
+  isGroupSelected = model<boolean>(false)
 
   instructionsByWorkshopService: InstructionsByWorkshopService = inject(InstructionsByWorkshopService);
   instructionsByDepartmentService: instructionsByDepartmentService = inject(instructionsByDepartmentService);
@@ -30,6 +36,7 @@ export class AsideComponentComponent {
       .subscribe((instructions: Instruction[]) => {
         this.updateInstructions(instructions);
       });
+    this.isGroupSelected.set(false);
   }
 
   showInstructionsByDepartment(d_title: string, w_title: string) {
@@ -38,6 +45,7 @@ export class AsideComponentComponent {
       .subscribe((instructions: Instruction[]) => {
         this.updateInstructions(instructions);
       });
+    this.isGroupSelected.set(false);
   }
 
   showInstructionsByGroup(g_title: string, d_title: string, w_title: string) {
@@ -46,13 +54,11 @@ export class AsideComponentComponent {
       .subscribe((instructions: Instruction[]) => {
         this.updateInstructions(instructions);
       });
+    this.isGroupSelected.set(true);
   }
 
-  @Output() instructionsChange = new EventEmitter<Instruction[]>();
-
   updateInstructions(newInstructions: Instruction[]) {
-    this.instructions = [...newInstructions];
-    this.instructionsChange.emit(newInstructions);  // уведомляем родителя
+    this.instructions.set([...newInstructions]);
   }
 
   constructor() {

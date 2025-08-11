@@ -1,5 +1,5 @@
 <aside class="aside">
-  <ul class="aside__list" >
+  <ul class="aside__list aside__list--root" >
     @for (w of asideData; track w.id) {
       <li class="aside__item" >
         <div class="aside__btns">
@@ -15,7 +15,7 @@
             <app-ui-button (btnClick)="showInstructionsByWorkshop(w.title)">{{ w.title }}</app-ui-button>
           }
         </div>
-        <ul class="aside__list" style="max-height: 0">
+        <ul class="aside__list aside__list--collapsed">
           @for (d of w.departments; track d.id) {
             <li class="aside__item">
               <div class="aside__btns">
@@ -25,7 +25,7 @@
                     (btnClick)="hideSublist($event)"
                     style="margin-left: 30px"
                   >
-                    -
+                    +
                   </app-ui-button>
                   <app-ui-button (btnClick)="showInstructionsByDepartment(d.title, w.title)">{{ d.title }}</app-ui-button>
                 } @else {
@@ -34,12 +34,14 @@
                   </app-ui-button>
                 }
               </div>
-              <ul class="aside__list">
+              <ul class="aside__list aside__list--collapsed">
                 @for (g of d.groups; track g.id) {
                   <li class="aside__item">
-                    <app-ui-button style="margin-left: 80px" (btnClick)="showInstructionsByGroup(g.title, d.title, w.title)">
-                      {{ g.title }}
-                    </app-ui-button>
+                    <div class="aside__item-wrapper">
+                      <app-ui-button style="margin-left: 80px" (btnClick)="showInstructionsByGroup(g.title, d.title, w.title)">
+                        {{ g.title }}
+                      </app-ui-button>
+                    </div>
                   </li>
                 }
               </ul>

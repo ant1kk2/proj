@@ -1,15 +1,19 @@
 @use "nullstyle.scss";
+@use "icon-font";
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 
 :root {
-  --dark-color: #474747;
-  --black: #000000;
-  --light-color: #ececec;
-  --yellow-color: #ffff00;
-  --blue-color: #0000ff;
+  --light-color: #fcfcfc;
+  --black-color: #000000;
+  --dark-color: #141414;
+  --hover-color: #dcdcdc;
+  --active-color: #bcbcbc;
+  --modal-bg-color: rgba(220, 220, 220, 0.5);
+  --modal-box-shadow: var(--black-color) 4px 4px 20px;
+  --btn-box-shadow: var(--black-color) 1px 1px 2px;
 }
 
 body {
-  color: var(--light-color);
+  color: var(--dark-color);
   font-family: "Roboto", sans-serif;
 }

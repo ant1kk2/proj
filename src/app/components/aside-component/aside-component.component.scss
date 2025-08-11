@@ -12,13 +12,27 @@
 
 .aside__item {
   overflow: hidden;
-  margin-bottom: 5px;
+}
+
+.aside__item-wrapper{
+  padding: 5px;
 }
 
 .aside__item:last-child{
   margin-bottom: 0;
 }
 
+
 .aside__list {
-  transition: max-height .2s linear;
+  overflow: hidden;
+  transition: max-height 0.2s linear;
+}
+
+.aside__list--root {
+  max-height: none; /* или очень большой, чтобы раскрыть весь список мастерских */
+  overflow: visible;
+}
+
+.aside__list--collapsed {
+  max-height: 0;
 }

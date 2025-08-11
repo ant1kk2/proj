@@ -1,0 +1,41 @@
+.modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100dvw;
+  height: 100dvh;
+  background-color: var(--modal-bg-color);
+  overflow: hidden;
+  cursor: pointer;
+  animation: open-modal forwards linear .1s;
+}
+
+@keyframes open-modal {
+  0%{
+    opacity: 0;
+  }
+
+  100%{
+    opacity: 1;
+  }
+}
+
+.modal__container {
+  cursor: default;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 5px;
+  padding: 10px;
+  background-color: var(--light-color);
+  box-shadow: var(--modal-box-shadow);
+}
+
+.modal__close-btn-wrapper{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+

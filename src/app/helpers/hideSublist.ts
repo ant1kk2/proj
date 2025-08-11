@@ -1,16 +1,20 @@
 export function hideSublist(e: MouseEvent): void {
   const target = e.target as HTMLElement;
-  const sublist = target.closest(".aside__item")!.children[1] as HTMLElement;
-  sublist.style.maxHeight = sublist.scrollHeight + "px";
-  if (target.innerText === "+") {
-    target.innerText = "-";
-    setTimeout(() => {
-      sublist.classList.remove("hidden");
-    },2000)
-    sublist.style.maxHeight = sublist.scrollHeight + "px";
-  } else {
+  const asideItem = target.closest(".aside__item");
+  if (!asideItem) return;
+  const sublist = asideItem.querySelector(".aside__list");
+  if (!sublist) return;
+
+  if ((sublist as HTMLElement).style.maxHeight && (sublist as HTMLElement).style.maxHeight !== "0px") {
+    (sublist as HTMLElement).style.maxHeight = "0";
     target.innerText = "+";
-    sublist.classList.add("hidden");
-    sublist.style.maxHeight = "0";
+  } else {
+    (sublist as HTMLElement).style.maxHeight = sublist.scrollHeight + "px";
+    target.innerText = "-";
+    sublist.addEventListener("transitionend", () => {
+        if ((sublist as HTMLElement).style.maxHeight !== "0px") (sublist as HTMLElement).style.maxHeight = "none";
+      },
+      {once: true}
+    );
   }
 }

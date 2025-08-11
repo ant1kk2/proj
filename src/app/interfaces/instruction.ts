@@ -1,6 +1,6 @@
 export interface Instruction {
   id: number;
-  number: number;
+  number: string;
   name: string;
   title: string;
   date: string;

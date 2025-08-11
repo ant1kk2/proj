@@ -2,6 +2,13 @@
   <app-header-component class="main__header"></app-header-component>
   <app-aside-component class="main__aside"
                        [instructions]="instructions"
-                       (instructionsChange)="instructions = $event"></app-aside-component>
-  <app-main-component class="main__table" [instructions]="instructions"></app-main-component>
+                       (instructionsChange)="instructions = $event"
+                       [(isGroupSelected)]="isGroupSelected"></app-aside-component>
+  <app-table-component class="main__table"
+                       [instructions]="instructions"
+                       (sortByNumberClick)="sortInstructionsByNumber()"
+                       (sortByTitleClick)="sortInstructionsByTitle()"
+                       (sortByDateClick)="sortInstructionsByDate()"
+                       (sortByDevClick)="sortInstructionsByDeveloper()"
+                       [isGroupSelected]="isGroupSelected"></app-table-component>
 </main>

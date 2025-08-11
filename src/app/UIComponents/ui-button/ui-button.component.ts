@@ -6,6 +6,7 @@ import { NgClass } from '@angular/common';
   imports: [NgClass],
   templateUrl: './ui-button.component.html',
   styleUrl: './ui-button.component.scss',
+  standalone: true
 })
 export class UiButtonComponent {
   @Input() type: string = 'button';

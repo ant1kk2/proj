@@ -1,0 +1,60 @@
+<table class="table">
+  <thead>
+  <tr class="table__headers">
+    <th class="table__header">
+      <div class="table__header-container">
+        <p class="table__header-title">№ ТІ</p>
+        <app-ui-button (btnClick)="onSortByNumberClick($event)">
+          <span class="icon-sort-amount-asc"></span>
+        </app-ui-button>
+      </div>
+    </th>
+    <th class="table__header">
+      <div class="table__header-container">
+        <p class="table__header-title">Найменування</p>
+        <app-ui-button (btnClick)="onSortByTitleClick($event)">
+          <span class="icon-sort-amount-asc"></span>
+        </app-ui-button>
+      </div>
+    </th>
+    <th class="table__header">
+      <div class="table__header-container">
+        <p class="table__header-title">Завантажити</p>
+      </div>
+    </th>
+    <th class="table__header">
+      <div class="table__header-container">
+        <p class="table__header-title">Дата затв.</p>
+        <app-ui-button (btnClick)="onSortByDateClick($event)">
+          <span class="icon-sort-amount-asc"></span>
+        </app-ui-button>
+      </div>
+    </th>
+    <th class="table__header">
+      <div class="table__header-container">
+        <p class="table__header-title">Розробник</p>
+        @if (!isGroupSelected()) {
+          <app-ui-button (btnClick)="onSortByDevClick($event)">
+            <span class="icon-sort-amount-asc"></span>
+          </app-ui-button>
+        }
+      </div>
+    </th>
+  </tr>
+  </thead>
+  <tbody>
+    @for (i of instructions(); track i.id) {
+      <tr class="table__row">
+        <td class="table__cell">{{ i.number }}</td>
+        <td class="table__cell">{{ i.title }}</td>
+        <td class="table__cell">
+          <a class="icon-folder-download table__title-icon" [href]="'http://localhost:3000/uploads/' + i.path_word" download></a>
+        </td>
+        <td class="table__cell">{{ i.date | date : 'dd.MM.yyyy' }}</td>
+        <td class="table__cell">
+          {{ i.g_title !== 'null' ? i.g_title : i.d_title }}
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>

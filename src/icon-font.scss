@@ -1,0 +1,36 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('app/assets/icon-font/icomoon.eot?am60bm');
+  src:  url('app/assets/icon-font/icomoon.eot?am60bm#iefix') format('embedded-opentype'),
+  url('app/assets/icon-font/icomoon.ttf?am60bm') format('truetype'),
+  url('app/assets/icon-font/icomoon.woff?am60bm') format('woff'),
+  url('app/assets/icon-font/icomoon.svg?am60bm#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  font-family: 'icomoon' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-folder-download:before {
+  content: "\e933";
+}
+.icon-cross:before {
+  content: "\ea0f";
+}
+.icon-sort-amount-asc:before {
+  content: "\ea4c";
+}
+.icon-sort-amount-desc:before {
+  content: "\ea4d";
+}

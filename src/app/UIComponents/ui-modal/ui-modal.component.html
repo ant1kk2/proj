@@ -1,0 +1,12 @@
+@if (isOpen()) {
+  <div class="modal" (click)="onBackDropClick($event)">
+    <div class="modal__container" [style.width]="width() + 'px'">
+      <div class="modal__close-btn-wrapper">
+        <app-ui-button className="modal__close-btn" (click)="close()">
+          <span class="icon-cross"></span>
+        </app-ui-button>
+      </div>
+      <ng-content></ng-content>
+    </div>
+  </div>
+}

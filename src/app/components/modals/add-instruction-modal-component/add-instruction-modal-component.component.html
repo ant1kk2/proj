@@ -1,0 +1,31 @@
+<app-ui-button (btnClick)="openAddInstructionModal()">Додати ТІ</app-ui-button>
+<app-ui-modal
+  [(isOpen)]="isAddInstructionModalOpen"
+  width="600"
+>
+  <p class="developer">ЦТАВ, Автоматика, ГССЖ-1, Константинов</p>
+  <form class="form" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+    <fieldset class="form__fieldset">
+      <label class="form__label">Введіть № ТІ</label>
+      <input class="form__text-input" type="text" name="number" [(ngModel)]="formData.number"/>
+    </fieldset>
+    <fieldset class="form__fieldset">
+      <label class="form__label">Введіть назву ТІ</label>
+      <textarea class="form__textarea title" type="text" name="title" [(ngModel)]="formData.title"></textarea>
+    </fieldset>
+    <fieldset class="form__fieldset">
+      <label class="form__label">Введіть дату затвердження</label>
+      <input class="form__date" type="date" name="date" [(ngModel)]="formData.date"/>
+    </fieldset>
+    <fieldset class="form__fieldset">
+      <label class="form__label">Додайте файл ТІ</label>
+      <input class="form__file" type="file" name="file" (change)="onFileSelected($event)"/>
+    </fieldset>
+    <fieldset class="form__fieldset">
+      <label class="form__label">Примітки</label>
+      <textarea class="form__textarea" type="text" name="tegs" [(ngModel)]="formData.tegs"></textarea>
+    </fieldset>
+    <app-ui-button type="submit">Додати інструкцію</app-ui-button>
+  </form>
+
+</app-ui-modal>
