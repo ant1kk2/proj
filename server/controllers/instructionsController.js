@@ -11,27 +11,64 @@ const getInstructions = (req, res) => {
 };
 
 const getInstructionsByWorkshop = (req, res) => {
-  const {w_title} = req.query;
-  const sql = `SELECT *
-               FROM db.instructions
-               WHERE w_title = ?
-               ORDER BY number;`;
-  db.query(sql, [w_title], (err, results) => {
+  const { id } = req.query;
+  const sql = `
+    SELECT
+      i.id,
+      i.number,
+      i.title,
+      DATE_FORMAT(i.date, '%Y-%m-%d') AS date,
+    u.title AS user_title,
+    un.title AS unit_title,
+    s.title AS section_title,
+    d.title AS department_title,
+    w.title AS workshop_title,
+    i.tegs,
+    NULL AS path_pdf,
+    i.path_word
+    FROM instructions i
+      JOIN users u ON i.user_id = u.id
+      LEFT JOIN units un ON u.unit_id = un.id
+      LEFT JOIN sections s ON u.section_id = s.id OR un.section_id = s.id
+      LEFT JOIN departments d ON u.department_id = d.id OR s.department_id = d.id
+      JOIN workshops w ON d.workshop_id = w.id
+    WHERE w.id = ?
+    ORDER BY i.number;
+  `;
+  db.query(sql, [id], (err, results) => {
     if (err) {
-      return res.status(500).json({error: 'помилка сервера'});
+      return res.status(500).json({ error: 'помилка сервера', details: err });
     }
     res.json(results);
   });
 };
+
 
 const getInstructionsByDepartment = (req, res) => {
-  const {d_title, w_title} = req.query;
-  const sql = `SELECT *
-               FROM db.instructions
-               WHERE d_title = ?
-                 AND w_title = ?
-               ORDER BY number;`;
-  db.query(sql, [d_title, w_title], (err, results) => {
+  const {id} = req.query;
+  const sql = `SELECT i.id,
+                      i.number,
+                      i.title,
+                      DATE_FORMAT(i.date, '%Y-%m-%d') AS date,
+                      u.title AS user_title,
+                      un.title AS unit_title,
+                      s.title AS section_title,
+                      d.title AS department_title,
+                      w.title AS workshop_title,
+                      i.tegs,
+                      NULL AS path_pdf,
+                      i.path_word
+                FROM instructions i
+                  JOIN users u
+                ON i.user_id = u.id
+                  LEFT JOIN units un ON u.unit_id = un.id
+                  LEFT JOIN sections s ON u.section_id = s.id OR un.section_id = s.id
+                  LEFT JOIN departments d ON u.department_id = d.id OR s.department_id = d.id
+                  JOIN workshops w ON d.workshop_id = w.id
+                WHERE d.id = ?
+                ORDER BY i.number;
+  `
+  db.query(sql, [id], (err, results) => {
     if (err) {
       return res.status(500).json({error: 'помилка сервера'});
     }
@@ -39,16 +76,63 @@ const getInstructionsByDepartment = (req, res) => {
   });
 };
 
-const getInstructionsByGroup = (req, res) => {
-  const {g_title, d_title, w_title} = req.query;
+const getInstructionsBySection = (req, res) => {
+  const {id} = req.query;
 
-  const sql = `SELECT *
-               FROM db.instructions
-               WHERE g_title = ?
-                 AND d_title = ?
-                 AND w_title = ?
+  const sql = `SELECT i.id,
+                      i.number,
+                      i.title,
+                      DATE_FORMAT(i.date, '%Y-%m-%d') AS date,
+                      u.title AS user_title,
+                      un.title AS unit_title,
+                      s.title AS section_title,
+                      d.title AS department_title,
+                      w.title AS workshop_title,
+                      i.tegs,
+                      NULL AS path_pdf,
+                      i.path_word
+               FROM instructions i
+                 JOIN users u
+               ON i.user_id = u.id
+                 LEFT JOIN units un ON u.unit_id = un.id
+                 LEFT JOIN sections s ON u.section_id = s.id OR un.section_id = s.id
+                 LEFT JOIN departments d ON u.department_id = d.id OR s.department_id = d.id
+                 JOIN workshops w ON d.workshop_id = w.id
+               WHERE s.id = ?
                ORDER BY number;`;
-  db.query(sql, [g_title, d_title, w_title], (err, results) => {
+  db.query(sql, [id], (err, results) => {
+    if (err) {
+      return res.status(500).json({error: 'помилка сервера'});
+    }
+    res.json(results);
+  });
+};
+
+const getInstructionsByUnit = (req, res) => {
+  const {id} = req.query;
+
+  const sql = `SELECT i.id,
+                      i.number,
+                      i.title,
+                      DATE_FORMAT(i.date, '%Y-%m-%d') AS date,
+    u.title AS user_title,
+    un.title AS unit_title,
+    s.title AS section_title,
+    d.title AS department_title,
+    w.title AS workshop_title,
+    i.tegs,
+    NULL AS path_pdf,
+    i.path_word
+               FROM instructions i
+                 JOIN users u
+               ON i.user_id = u.id
+                 LEFT JOIN units un ON u.unit_id = un.id
+                 LEFT JOIN sections s ON u.section_id = s.id OR un.section_id = s.id
+                 LEFT JOIN departments d ON u.department_id = d.id OR s.department_id = d.id
+                 JOIN workshops w ON d.workshop_id = w.id
+               WHERE un.id = ?
+  ORDER BY number;`;
+  db.query(sql, [id], (err, results) => {
     if (err) {
       return res.status(500).json({error: 'помилка сервера'});
     }
@@ -60,6 +144,7 @@ module.exports = {
   getInstructions,
   getInstructionsByWorkshop,
   getInstructionsByDepartment,
-  getInstructionsByGroup,
+  getInstructionsBySection,
+  getInstructionsByUnit,
 };
 

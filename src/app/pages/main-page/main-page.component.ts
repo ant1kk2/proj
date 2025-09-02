@@ -4,7 +4,7 @@ import {AsideComponentComponent} from '../../components/aside-component/aside-co
 import {TableComponentComponent} from '../../components/table-component/table-component.component';
 import {Instruction} from '../../interfaces/instruction';
 import {compareInstructionsByNumbers, compareInstructionsByRevNumbers} from '../../helpers/compareInstructionsByNumber';
-import {compareByGroupOrDeveloper, compareByGroupOrDeveloperRev} from '../../helpers/compareInstructionsByDeveloper';
+import {compareByDeveloper, compareByDeveloperRev} from '../../helpers/compareInstructionsByDeveloper';
 
 @Component({
   selector: 'app-main-page',
@@ -18,13 +18,14 @@ import {compareByGroupOrDeveloper, compareByGroupOrDeveloperRev} from '../../hel
   styleUrl: './main-page.component.scss'
 })
 export class MainPageComponent {
+
   instructions: Instruction[] = [];
 
   private isNumReversed: boolean = false;
   private isTitleReversed: boolean = false;
   private isDateReversed: boolean = false;
   private isDevReversed: boolean = false;
-  isGroupSelected: boolean = false;
+  isUnitSelected: boolean = false;
 
   sortInstructionsByNumber() {
     this.instructions = this.isNumReversed ?
@@ -52,8 +53,8 @@ export class MainPageComponent {
 
   sortInstructionsByDeveloper() {
     this.instructions = this.isDevReversed ?
-      [...this.instructions.sort(compareByGroupOrDeveloper)] :
-      [...this.instructions.sort(compareByGroupOrDeveloperRev)]
+      [...this.instructions.sort(compareByDeveloper)] :
+      [...this.instructions.sort(compareByDeveloperRev)]
     this.isDevReversed = !this.isDevReversed
   }
 }

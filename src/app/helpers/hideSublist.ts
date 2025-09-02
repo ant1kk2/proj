@@ -1,20 +1,31 @@
 export function hideSublist(e: MouseEvent): void {
-  const target = e.target as HTMLElement;
+  const target = e.currentTarget as HTMLElement; // именно кнопка
   const asideItem = target.closest(".aside__item");
   if (!asideItem) return;
-  const sublist = asideItem.querySelector(".aside__list");
+
+  const sublist = asideItem.querySelector(".aside__list") as HTMLElement;
   if (!sublist) return;
 
-  if ((sublist as HTMLElement).style.maxHeight && (sublist as HTMLElement).style.maxHeight !== "0px") {
-    (sublist as HTMLElement).style.maxHeight = "0";
+  const isOpen = sublist.style.maxHeight && sublist.style.maxHeight !== "0px";
+
+  if (isOpen) {
+    sublist.style.maxHeight = sublist.scrollHeight + "px"; // фикс для корректной анимации
+    requestAnimationFrame(() => {
+      sublist.style.maxHeight = "0";
+    });
     target.innerText = "+";
   } else {
-    (sublist as HTMLElement).style.maxHeight = sublist.scrollHeight + "px";
+    sublist.style.maxHeight = sublist.scrollHeight + "px";
     target.innerText = "-";
-    sublist.addEventListener("transitionend", () => {
-        if ((sublist as HTMLElement).style.maxHeight !== "0px") (sublist as HTMLElement).style.maxHeight = "none";
+
+    sublist.addEventListener(
+      "transitionend",
+      () => {
+        if (sublist.style.maxHeight !== "0px") {
+          sublist.style.maxHeight = "none"; // снимаем ограничение после раскрытия
+        }
       },
-      {once: true}
+      { once: true }
     );
   }
 }

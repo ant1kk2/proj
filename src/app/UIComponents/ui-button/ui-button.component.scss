@@ -1,5 +1,5 @@
 .btn {
-  padding: 5px 10px;
+  padding: 2px 5px;
   border: 1px solid var(--dark-color);
   border-radius: 4px;
   transition-duration: 0.1s;
@@ -8,6 +8,12 @@
 
 .btn:hover {
   background-color: var(--hover-color);
+}
+
+.btn-plus{
+  width: 20px;
+  height: 20px;
+  padding: 0;
 }
 
 .btn:active {

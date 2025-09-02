@@ -3,7 +3,7 @@
   [(isOpen)]="isAddInstructionModalOpen"
   width="600"
 >
-  <p class="developer">ЦТАВ, Автоматика, ГССЖ-1, Константинов</p>
+  <p class="developer">ЦТАВ;Автоматика;ГССЖ-1, ГСЗБ-1, ГН-1;ГССЖ-1 Константинов</p>
   <form class="form" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
     <fieldset class="form__fieldset">
       <label class="form__label">Введіть № ТІ</label>
@@ -25,7 +25,11 @@
       <label class="form__label">Примітки</label>
       <textarea class="form__textarea" type="text" name="tegs" [(ngModel)]="formData.tegs"></textarea>
     </fieldset>
-    <app-ui-button type="submit">Додати інструкцію</app-ui-button>
+    <div class="form__protocols">
+      <app-ui-button type="button" (btnClick)="openAddProtocolModal()">Додати протокол</app-ui-button>
+    </div>
+      <app-ui-button type="submit">Додати інструкцію</app-ui-button>
+
   </form>
 
 </app-ui-modal>

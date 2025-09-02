@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { NgClass } from '@angular/common';
+import {Component, input, output} from '@angular/core';
+import {NgClass} from '@angular/common';
 
 @Component({
   selector: 'app-ui-button',
@@ -9,17 +9,22 @@ import { NgClass } from '@angular/common';
   standalone: true
 })
 export class UiButtonComponent {
-  @Input() type: string = 'button';
-  @Input() className: string = '';
-  @Input() btnStyle: string = "";
 
-  @Output() btnClick = new EventEmitter<MouseEvent>();
+  workshopId = input<number>(0)
+  departmentId = input<number>(0)
+  sectionId = input<number>(0)
+  unitId = input<number>(0)
+  className = input<string>('');
+  btnStyle = input<string>('');
+  type = input<string>('button');
+
+  btnClick = output<MouseEvent>();
 
   onClick(e: MouseEvent) {
     this.btnClick.emit(e);
   }
 
   get fullClass(): string[] {
-    return ['btn', ...this.className.split(' ').filter((c) => c)];
+    return ['btn', ...this.className().split(' ').filter((c) => c)];
   }
 }

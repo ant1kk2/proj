@@ -18,9 +18,4 @@ export class UiModalComponent {
     this.isOpen.set(false)
   }
 
-  onBackDropClick(event: MouseEvent) {
-    if((event.target as HTMLDivElement).classList.contains('modal')){
-      this.isOpen.set(false)
-    }
-  }
 }

@@ -1,17 +1,21 @@
-interface Group {
+interface Unit {
+  id: number;
+  title: string;
+  section_id: number;
+}
+
+interface Section{
   id: number;
   title: string;
   department_id: number;
-  workshop_id: number;
-  workshop_code: string;
+  units?: Unit[];
 }
 
 interface Department {
   id: number;
   title: string;
   workshop_id: number;
-  workshop_code: string;
-  groups?: Group[];
+  sections: Section[];
 }
 
 export interface Workshop {

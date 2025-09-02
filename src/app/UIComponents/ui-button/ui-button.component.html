@@ -1,7 +1,12 @@
 <button
-  [attr.type]="type"
+
   [ngClass]="fullClass"
-  [attr.style]="btnStyle"
+  [attr.style]="btnStyle()"
+  [attr.type]="type()"
+  [attr.workshop-id]="workshopId()"
+  [attr.department-id]="departmentId()"
+  [attr.section-id]="sectionId()"
+  [attr.unit-id]="unitId()"
   (click)="onClick($event)"
 >
   <ng-content></ng-content>

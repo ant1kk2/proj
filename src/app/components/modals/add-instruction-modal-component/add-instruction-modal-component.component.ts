@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, model} from '@angular/core';
 import {UiButtonComponent} from '../../../UIComponents/ui-button/ui-button.component';
 import {UiModalComponent} from '../../../UIComponents/ui-modal/ui-modal.component';
 import {UploadInstructionService} from '../../../services/upload-instruction.service';
@@ -17,17 +17,19 @@ import {FormsModule} from '@angular/forms';
 })
 export class AddInstructionModalComponentComponent {
 
-  developer_id: number = 87;
+  user_id: number = 90;
   path_pdf: null = null;
   path_word: string = "";
-  g_title: string = "ГССЖ-1";
-  d_title: string = "Автоматика";
-  w_title: string = "ЦТАВ";
 
   isAddInstructionModalOpen: boolean = false;
-
+  isAddprotocolModalOpen = model<boolean>(false)
   openAddInstructionModal() {
     this.isAddInstructionModalOpen = true;
+  }
+
+  openAddProtocolModal() {
+    this.isAddprotocolModalOpen.set(true);
+    console.log(this.isAddprotocolModalOpen());
   }
 
 //===========================================================//
@@ -63,20 +65,15 @@ export class AddInstructionModalComponentComponent {
       date: this.formData.date,
       tegs: this.formData.tegs,
       file: this.selectedFile,
-      developer_id:  this.developer_id,
+      user_id:  this.user_id,
       path_pdf: this.path_pdf,
       path_word: this.path_word,
-      g_title: this.g_title,
-      d_title: this.d_title,
-      w_title: this.w_title,
     };
 
     this.uploadInstructionService.uploadForm(data).subscribe({
       next: (response) => {
         console.log(response);
         alert('додано');
-        // this.formData = { number: '', title: '', date: '', tegs: '' };
-        // this.selectedFile = null;
       },
       error: (error) => {
         console.error(error);
@@ -84,6 +81,4 @@ export class AddInstructionModalComponentComponent {
       }
     });
   }
-
-
 }

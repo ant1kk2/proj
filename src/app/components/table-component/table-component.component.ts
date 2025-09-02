@@ -1,4 +1,4 @@
-import {Component, input, output} from '@angular/core';
+import {Component, input, model, output} from '@angular/core';
 import {UiButtonComponent} from '../../UIComponents/ui-button/ui-button.component';
 import {Instruction} from '../../interfaces/instruction';
 import {DatePipe} from '@angular/common';
@@ -15,7 +15,7 @@ import {DatePipe} from '@angular/common';
 })
 export class TableComponentComponent {
   instructions = input<Instruction[]>([])
-  isGroupSelected = input<boolean>(false);
+  isUnitSelected = model<boolean>(false);
 
   sortByNumberClick = output<void>()
   sortByTitleClick = output<void>()
@@ -25,27 +25,24 @@ export class TableComponentComponent {
   onSortByNumberClick(event: MouseEvent): void {
     this.sortByNumberClick.emit()
     const target = event.currentTarget as HTMLButtonElement;
-    this.instructions.length && target.firstElementChild!.classList.toggle("icon-sort-amount-desc")
+    this.instructions().length && target.firstElementChild!.classList.toggle("icon-sort-amount-desc")
   }
 
   onSortByTitleClick(event: MouseEvent): void {
     this.sortByTitleClick.emit()
     const target = event.currentTarget as HTMLButtonElement;
-    this.instructions.length && target.firstElementChild!.classList.toggle("icon-sort-amount-desc")
+    this.instructions().length && target.firstElementChild!.classList.toggle("icon-sort-amount-desc")
   }
 
   onSortByDateClick(event: MouseEvent): void {
     this.sortByDateClick.emit()
     const target = event.currentTarget as HTMLButtonElement;
-    this.instructions.length && target.firstElementChild!.classList.toggle("icon-sort-amount-desc")
-    console.log(this.instructions())
+    this.instructions().length && target.firstElementChild!.classList.toggle("icon-sort-amount-desc")
   }
 
   onSortByDevClick(event: MouseEvent): void {
     this.sortByDevClick.emit()
     const target = event.currentTarget as HTMLButtonElement;
-    this.instructions.length && target.firstElementChild!.classList.toggle("icon-sort-amount-desc")
+    this.instructions().length && target.firstElementChild!.classList.toggle("icon-sort-amount-desc")
   }
-
-  protected readonly encodeURIComponent = encodeURIComponent;
 }

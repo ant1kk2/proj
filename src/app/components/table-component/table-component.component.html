@@ -33,7 +33,7 @@
     <th class="table__header">
       <div class="table__header-container">
         <p class="table__header-title">Розробник</p>
-        @if (!isGroupSelected()) {
+        @if (!isUnitSelected()) {
           <app-ui-button (btnClick)="onSortByDevClick($event)">
             <span class="icon-sort-amount-asc"></span>
           </app-ui-button>
@@ -48,11 +48,13 @@
         <td class="table__cell">{{ i.number }}</td>
         <td class="table__cell">{{ i.title }}</td>
         <td class="table__cell">
-          <a class="icon-folder-download table__title-icon" [href]="'http://localhost:3000/uploads/' + i.path_word" download></a>
+          <a class="icon-folder-download table__title-icon" [href]="'http://localhost:3000/uploads/' + i.path_word"
+             download></a>
         </td>
         <td class="table__cell">{{ i.date | date : 'dd.MM.yyyy' }}</td>
-        <td class="table__cell">
-          {{ i.g_title !== 'null' ? i.g_title : i.d_title }}
+        <td class="table__cell" style="white-space: pre-line;">
+          {{ i.unit_title !== null ? `${i.workshop_title + ";\n" +  i.department_title + ";\n" +  i.section_title + ";\n" +  i.unit_title + ";\n"}` : i.section_title !== null ? i.section_title +";\n" : i.department_title + ";\n" }}
+          {{  i.user_title }}
         </td>
       </tr>
     }

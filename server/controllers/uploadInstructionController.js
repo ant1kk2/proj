@@ -55,12 +55,8 @@ const uploadFile = (req, res) => {
     title,
     date,
     tegs,
-    developer_id,
-    g_title,
-    d_title,
-    w_title
+    user_id,
   } = req.body;
-
 
   const path_word = path.relative(
     path.join(__dirname, '../'),
@@ -71,8 +67,8 @@ const uploadFile = (req, res) => {
 
   const sql = `
     INSERT INTO instructions
-    (number, title, date, tegs, developer_id, path_pdf, path_word, g_title, d_title, w_title)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    (number, title, date, tegs, user_id, path_pdf, path_word)
+    VALUES (?, ?, ?, ?, ?, ?, ?)
   `;
 
   const params = [
@@ -80,12 +76,9 @@ const uploadFile = (req, res) => {
     title,
     date,
     tegs,
-    developer_id,
+    user_id,
     path_pdf,
     path_word,
-    g_title,
-    d_title,
-    w_title
   ];
 
   db.query(sql, params, (err, result) => {

@@ -1,3 +1,5 @@
 <header class="header">
-  <app-add-instruction-modal-component></app-add-instruction-modal-component>
+  <app-add-instruction-modal-component [(isAddprotocolModalOpen)]="isAddprotocolModalOpen"/>
+  <app-add-protocol-modal-component [(isAddprotocolModalOpen)]="isAddprotocolModalOpen"/>
+  <app-ui-input (onInput)="showSearchedValue($event)" placeholder="Швидкий пошук" inputName="search" iconClass="icon-search"/>
 </header>

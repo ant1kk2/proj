@@ -2,7 +2,7 @@
   background-color: var(--light-color);
   display: grid;
   grid-template-areas: "header header" "aside main";
-  grid-template-columns: 250px 1fr;
+  grid-template-columns: 350px 1fr;
   grid-template-rows: auto 1fr;
   min-height: 100dvh;
 }

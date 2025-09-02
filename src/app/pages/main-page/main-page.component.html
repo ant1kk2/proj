@@ -1,14 +1,14 @@
 <main class="main">
-  <app-header-component class="main__header"></app-header-component>
+  <app-header-component class="main__header" [(instructions)]="instructions"></app-header-component>
   <app-aside-component class="main__aside"
-                       [instructions]="instructions"
-                       (instructionsChange)="instructions = $event"
-                       [(isGroupSelected)]="isGroupSelected"></app-aside-component>
+                       [(instructions)]="instructions"
+                       [(isUnitSelected)]="isUnitSelected"
+  ></app-aside-component>
   <app-table-component class="main__table"
                        [instructions]="instructions"
                        (sortByNumberClick)="sortInstructionsByNumber()"
                        (sortByTitleClick)="sortInstructionsByTitle()"
                        (sortByDateClick)="sortInstructionsByDate()"
                        (sortByDevClick)="sortInstructionsByDeveloper()"
-                       [isGroupSelected]="isGroupSelected"></app-table-component>
+                       [(isUnitSelected)]="isUnitSelected"></app-table-component>
 </main>

@@ -1,46 +1,52 @@
+
 export function nestData(rows) {
+  const nested = [];
   const workshopsMap = new Map();
 
-  for (const row of rows) {
-    const {
-      workshop_id, workshop_title, workshop_code,
-      department_id, department_title,
-      group_id, group_title
-    } = row;
-
-    if (!workshopsMap.has(workshop_id)) {
-      workshopsMap.set(workshop_id, {
-        id: workshop_id,
-        title: workshop_title,
-        code: workshop_code,
+  rows.forEach(row => {
+    let workshop = workshopsMap.get(row.workshop_id);
+    if (!workshop) {
+      workshop = {
+        id: row.workshop_id,
+        title: row.workshop_title,
+        code: row.workshop_code,
         departments: []
-      });
-    }
-
-    const workshop = workshopsMap.get(workshop_id);
-
-    let department = workshop.departments.find(d => d.id === department_id);
-    if (!department && department_id != null) {
-      department = {
-        id: department_id,
-        title: department_title,
-        workshop_id: workshop_id,
-        workshop_code: workshop_code,
-        groups: []
       };
-      workshop.departments.push(department);
+      workshopsMap.set(row.workshop_id, workshop);
+      nested.push(workshop);
     }
 
-    if (department && group_id != null) {
-      department.groups.push({
-        id: group_id,
-        title: group_title,
-        department_id: department_id,
-        workshop_id: workshop_id,
-        workshop_code: workshop_code
-      });
-    }
-  }
+    if (row.department_id) {
+      let department = workshop.departments.find(d => d.id === row.department_id);
+      if (!department) {
+        department = {
+          id: row.department_id,
+          title: row.department_title,
+          sections: []
+        };
+        workshop.departments.push(department);
+      }
 
-  return Array.from(workshopsMap.values());
+      if (row.section_id) {
+        let section = department.sections.find(s => s.id === row.section_id);
+        if (!section) {
+          section = {
+            id: row.section_id,
+            title: row.section_title,
+            units: []
+          };
+          department.sections.push(section);
+        }
+
+        if (row.unit_id) {
+          section.units.push({
+            id: row.unit_id,
+            title: row.unit_title
+          });
+        }
+      }
+    }
+  });
+
+  return nested;
 }

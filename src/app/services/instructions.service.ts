@@ -6,27 +6,13 @@ import {Observable} from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class InstructionsService {
-  http = inject(HttpClient);
-
-  baseApiUrl = 'http://localhost:3000/api';
-
-  getInstructions() {
-    return this.http.get<Instruction[]>(`${this.baseApiUrl}/get-instructions`);
-  }
-}
-
-
-@Injectable({
-  providedIn: 'root'
-})
 export class InstructionsByWorkshopService {
   http = inject(HttpClient);
 
   baseApiUrl = 'http://localhost:3000/api';
 
-  getInstructionsByWorkshopTitle(w_title: string): Observable<Instruction[]> {
-    const params = new HttpParams().set('w_title', w_title);
+  getInstructionsByWorkshopId(id: number): Observable<Instruction[]> {
+    const params = new HttpParams().set('id', id);
     return this.http.get<Instruction[]>(`${(this.baseApiUrl)}/get-instructions-by-w`, {params});
   }
 }
@@ -34,13 +20,13 @@ export class InstructionsByWorkshopService {
 @Injectable({
   providedIn: 'root'
 })
-export class instructionsByDepartmentService {
+export class InstructionsByDepartmentService {
   http = inject(HttpClient);
 
   baseApiUrl = 'http://localhost:3000/api';
 
-  getInstructionsByDepartmentTitle(d_title: string, w_title: string): Observable<Instruction[]> {
-    const params = new HttpParams().set('d_title', d_title).set('w_title', w_title);
+  getInstructionsByDepartmentId(id: number): Observable<Instruction[]> {
+    const params = new HttpParams().set('id', id);
     return this.http.get<Instruction[]>(`${(this.baseApiUrl)}/get-instructions-by-d`, {params});
   }
 }
@@ -48,16 +34,43 @@ export class instructionsByDepartmentService {
 @Injectable({
   providedIn: 'root'
 })
-export class instructionsByGroupService {
+export class InstructionsBySectionService {
   http = inject(HttpClient);
 
   baseApiUrl = 'http://localhost:3000/api';
 
-  getInstructionsByGroupTitle(g_title: string, d_title: string, w_title: string): Observable<Instruction[]> {
+  getInstructionsBySectiontId(id: number): Observable<Instruction[]> {
+    const params = new HttpParams().set('id', id);
+    return this.http.get<Instruction[]>(`${(this.baseApiUrl)}/get-instructions-by-s`, {params});
+  }
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class InstructionsByUnitService {
+  http = inject(HttpClient);
+
+  baseApiUrl = 'http://localhost:3000/api';
+
+  getInstructionsByUnitId(id: number): Observable<Instruction[]> {
+    const params = new HttpParams().set('id', id);
+    return this.http.get<Instruction[]>(`${(this.baseApiUrl)}/get-instructions-by-u`, {params});
+  }
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class InstructionsByQuickSearchService {
+  http = inject(HttpClient);
+
+  baseApiUrl = 'http://localhost:3000/api';
+
+  getInstructionsByQuickSearch(searchReq: string): Observable<Instruction[]> {
     const params = new HttpParams()
-      .set('g_title', g_title)
-      .set("d_title", d_title).set("w_title", w_title);
-    return this.http.get<Instruction[]>(`${(this.baseApiUrl)}/get-instructions-by-g`, {params});
+      .set('searchReq', searchReq)
+    return this.http.get<Instruction[]>(`${(this.baseApiUrl)}/get-instructions-by-qs`, {params});
   }
 }
 

@@ -8,6 +8,7 @@
   overflow: hidden;
   cursor: pointer;
   animation: open-modal forwards linear .1s;
+  z-index: 1;
 }
 
 @keyframes open-modal {

@@ -1,5 +1,5 @@
 @if (isOpen()) {
-  <div class="modal" (click)="onBackDropClick($event)">
+  <div class="modal">
     <div class="modal__container" [style.width]="width() + 'px'">
       <div class="modal__close-btn-wrapper">
         <app-ui-button className="modal__close-btn" (click)="close()">

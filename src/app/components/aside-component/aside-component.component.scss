@@ -24,12 +24,13 @@
 
 
 .aside__list {
+
   overflow: hidden;
   transition: max-height 0.2s linear;
 }
 
 .aside__list--root {
-  max-height: none; /* или очень большой, чтобы раскрыть весь список мастерских */
+  max-height: none;
   overflow: visible;
 }
 
