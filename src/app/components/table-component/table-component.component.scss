@@ -42,6 +42,10 @@
   align-items: center;
 }
 
+.table__cell{
+  cursor: default;
+}
+
 .table__cell:nth-child(3){
  text-align: center;
 }

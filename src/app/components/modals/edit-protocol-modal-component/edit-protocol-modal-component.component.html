@@ -1,5 +1,5 @@
 <app-ui-modal
-  [(isOpen)]="isAddProtocolModalOpen"
+  [(isOpen)]="isEditProtocolModalOpen"
   width="1400"
 >
   <div class="protocol-modal">
@@ -37,7 +37,7 @@
         <app-ui-button type="button" (btnClick)="addMeasurement()">Додати строку ЗВТ</app-ui-button>
       </fieldset>
       <div class="form__btns">
-        <app-ui-button type="button" (btnClick)="createProtocol()">Створити Протокол</app-ui-button>
+        <app-ui-button type="button" (btnClick)="editProtocol()">Редагувати Протокол</app-ui-button>
       </div>
     </form>
     <div class="protocol">
@@ -167,7 +167,7 @@
           <th class="protocol__zvt-th">Дата наступної перевірки</th>
 
           <tbody class="protocol__zvt-tbody">
-            @for (_ of measurementsArray; track $index) {
+            @for (_ of measurementsArray(); track $index) {
               <tr class="protocol__zvt-tr">
                 <th class="protocol__zvt-td"></th>
                 <th class="protocol__zvt-td"></th>

@@ -7,6 +7,7 @@ import {NgClass} from '@angular/common';
     NgClass
   ],
   templateUrl: './ui-input.component.html',
+  standalone: true,
   styleUrl: './ui-input.component.scss'
 })
 export class UiInputComponent {

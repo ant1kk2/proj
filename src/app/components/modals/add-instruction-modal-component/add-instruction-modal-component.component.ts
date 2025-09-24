@@ -3,6 +3,7 @@ import {UiButtonComponent} from '../../../UIComponents/ui-button/ui-button.compo
 import {UiModalComponent} from '../../../UIComponents/ui-modal/ui-modal.component';
 import {UploadInstructionService} from '../../../services/upload-instruction.service';
 import {FormsModule} from '@angular/forms';
+import {Protocol} from '../../../interfaces/protocol';
 
 @Component({
   selector: 'app-add-instruction-modal-component',
@@ -16,20 +17,33 @@ import {FormsModule} from '@angular/forms';
   styleUrl: './add-instruction-modal-component.component.scss'
 })
 export class AddInstructionModalComponentComponent {
-
+  protocols = model<Protocol[]>([]);
+  currentProtocolIndex = model<number>(0);
   user_id: number = 90;
   path_pdf: null = null;
   path_word: string = "";
 
   isAddInstructionModalOpen: boolean = false;
-  isAddprotocolModalOpen = model<boolean>(false)
+  isAddProtocolModalOpen = model<boolean>(false)
+  isEditProtocolModalOpen = model<boolean>(false)
+  currentProtocol = model<Protocol>({jobs: [], repairType: '', title: ''})
+
   openAddInstructionModal() {
     this.isAddInstructionModalOpen = true;
   }
 
   openAddProtocolModal() {
-    this.isAddprotocolModalOpen.set(true);
-    console.log(this.isAddprotocolModalOpen());
+    this.isAddProtocolModalOpen.set(true);
+  }
+
+  editProtocol(protocol: Protocol, index: number) {
+    this.currentProtocol.set(protocol);
+    this.isEditProtocolModalOpen.set(true);
+    this.currentProtocolIndex.set(index)
+  }
+
+  deleteProtocol(protocol: Protocol) {
+    this.protocols.update(protocols => protocols.filter(p => p !== protocol));
   }
 
 //===========================================================//
@@ -41,7 +55,8 @@ export class AddInstructionModalComponentComponent {
   };
   selectedFile: File | null = null;
 
-  constructor(private uploadInstructionService: UploadInstructionService) {}
+  constructor(private uploadInstructionService: UploadInstructionService) {
+  }
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -59,15 +74,18 @@ export class AddInstructionModalComponentComponent {
       return;
     }
 
+
+
     const data = {
       number: this.formData.number,
       title: this.formData.title,
       date: this.formData.date,
       tegs: this.formData.tegs,
       file: this.selectedFile,
-      user_id:  this.user_id,
+      user_id: this.user_id,
       path_pdf: this.path_pdf,
       path_word: this.path_word,
+      protocols: JSON.stringify(this.protocols())
     };
 
     this.uploadInstructionService.uploadForm(data).subscribe({

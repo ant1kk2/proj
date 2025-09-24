@@ -9,13 +9,18 @@ import {InstructionsByQuickSearchService} from '../../services/instructions.serv
 import {
   AddProtocolModalComponentComponent
 } from '../modals/add-protocol-modal-component/add-protocol-modal-component.component';
+import {Protocol} from '../../interfaces/protocol';
+import {
+  EditProtocolModalComponentComponent
+} from '../modals/edit-protocol-modal-component/edit-protocol-modal-component.component';
 
 @Component({
   selector: 'app-header-component',
   imports: [
     AddInstructionModalComponentComponent,
     UiInputComponent,
-    AddProtocolModalComponentComponent
+    AddProtocolModalComponentComponent,
+    EditProtocolModalComponentComponent
   ],
   templateUrl: './header-component.component.html',
   standalone: true,
@@ -23,11 +28,16 @@ import {
 })
 
 export class HeaderComponentComponent {
+  protocols: Protocol[] = [];
+
   instructionsByQuickSearchService: InstructionsByQuickSearchService = inject(InstructionsByQuickSearchService);
 
   instructions = model<Instruction[]>([]);
 
-  isAddprotocolModalOpen: boolean = false;
+  isAddProtocolModalOpen: boolean = false;
+  isEditProtocolModalOpen: boolean = false;
+  currentProtocol: Protocol = {jobs: [], repairType: '', title: ''};
+  currentProtocolIndex: number = 0;
 
   updateInstructions(newInstructions: Instruction[]) {
     this.instructions.set([...newInstructions]);

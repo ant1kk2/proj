@@ -1,0 +1,31 @@
+<app-ui-modal [(isOpen)]="isManageInstructionModalOpen" width="600">
+  <h3 class="modal_title">
+    {{ currentInstruction()!.title }}
+  </h3>
+  @if (protocols().length !== 0) {
+    <table class="table">
+      <thead class="thead">
+      <tr class="tr">
+        <th class="th">Назва Протоколу</th>
+        <th class="th">Тип ремонту</th>
+        <th class="th">Реєстрація</th>
+      </tr>
+      </thead>
+      <tbody class="tbody">
+        @for (protocol of protocols(); track protocol.id) {
+          <tr class="tr">
+            <td class="td">{{ protocol.title }}</td>
+            <td class="td">{{ protocol.repairType }}</td>
+            <td class="td">
+              <app-ui-button (btnClick)="openRegProtocolModal(protocol)">Зареєструвати</app-ui-button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  } @else {
+    <p class="empty-text">Протоколи до даної інструкції відсутні</p>
+  }
+
+
+</app-ui-modal>

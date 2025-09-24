@@ -1,21 +1,61 @@
-import {Component, input, model, output} from '@angular/core';
+import {Component, input, model, output, signal} from '@angular/core';
 import {UiButtonComponent} from '../../UIComponents/ui-button/ui-button.component';
 import {Instruction} from '../../interfaces/instruction';
 import {DatePipe} from '@angular/common';
+import {
+  ManageInstructionModalComponentComponent
+} from '../modals/manage-instruction-modal-component/manage-instruction-modal-component.component';
+import {
+  RegProtocolModalComponentComponent
+} from '../modals/reg-protocol-modal-component/reg-protocol-modal-component.component';
+import {Protocol} from '../../interfaces/protocol';
 
 @Component({
   selector: 'app-table-component',
   imports: [
     UiButtonComponent,
-    DatePipe
+    DatePipe,
+    ManageInstructionModalComponentComponent,
+    RegProtocolModalComponentComponent
   ],
   templateUrl: './table-component.component.html',
   standalone: true,
   styleUrl: './table-component.component.scss'
 })
 export class TableComponentComponent {
+  emptyInstruction: Instruction = {
+    id: 0,
+    number: "",
+    title: "",
+    date: "",
+    user_title: "",
+    unit_title: "",
+    section_title: "",
+    department_title: "",
+    workshop_title: "",
+    tegs: "",
+    path_pdf: null,
+    path_word: null
+  }
+
+  emptyProtocol: Protocol = {
+    id: 0,
+    title: "",
+    repairType: "",
+    jobs: [
+      {
+        number: "",
+        jobsDesc: [""]
+      }
+    ]
+  }
+
   instructions = input<Instruction[]>([])
   isUnitSelected = model<boolean>(false);
+  isManageInstructionModalOpen = signal<boolean>(false)
+  currentInstruction = signal<Instruction>(this.emptyInstruction)
+  isRegProtocolModalOpen = signal<boolean>(false)
+  currentProtocol = signal<Protocol>(this.emptyProtocol)
 
   sortByNumberClick = output<void>()
   sortByTitleClick = output<void>()
@@ -44,5 +84,10 @@ export class TableComponentComponent {
     this.sortByDevClick.emit()
     const target = event.currentTarget as HTMLButtonElement;
     this.instructions().length && target.firstElementChild!.classList.toggle("icon-sort-amount-desc")
+  }
+
+  openInstructionModal(i: Instruction) {
+    this.isManageInstructionModalOpen.set(true);
+    this.currentInstruction.set(i)
   }
 }

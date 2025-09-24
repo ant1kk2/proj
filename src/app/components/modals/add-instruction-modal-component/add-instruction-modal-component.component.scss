@@ -19,18 +19,6 @@
   box-shadow: var(--btn-box-shadow);
 }
 
-.form__text-input{
-  border: 1px solid var(--dark-color);
-  border-radius: 4px;
-  padding: 4px 8px;
-}
-
-.form__textarea{
-  border: 1px solid var(--dark-color);
-  border-radius: 4px;
-  padding: 4px 8px;
-  resize: none;
-}
 
 .form__textarea.title{
   height: 80px;
@@ -39,4 +27,14 @@
 .form__date{
   background-color: var(--hover-color);
   align-self: flex-start;
+}
+
+.form__protocols{
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-gap: 10px;
+
+  &.existing{
+    grid-template-columns: 1fr auto auto;
+  }
 }

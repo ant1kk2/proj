@@ -1,5 +1,19 @@
 <header class="header">
-  <app-add-instruction-modal-component [(isAddprotocolModalOpen)]="isAddprotocolModalOpen"/>
-  <app-add-protocol-modal-component [(isAddprotocolModalOpen)]="isAddprotocolModalOpen"/>
-  <app-ui-input (onInput)="showSearchedValue($event)" placeholder="Швидкий пошук" inputName="search" iconClass="icon-search"/>
+  <app-add-instruction-modal-component
+    [(isAddProtocolModalOpen)]="isAddProtocolModalOpen"
+    [(isEditProtocolModalOpen)]="isEditProtocolModalOpen"
+    [(protocols)]="protocols"
+    [(currentProtocol)]="currentProtocol"
+    [(currentProtocolIndex)]="currentProtocolIndex"
+  />
+  <app-add-protocol-modal-component
+    [(isAddProtocolModalOpen)]="isAddProtocolModalOpen"
+    [(protocols)]="protocols"/>
+  <app-edit-protocol-modal-component
+    [(isEditProtocolModalOpen)]="isEditProtocolModalOpen"
+    [(protocols)]="protocols"
+    [(currentProtocolIndex)]="currentProtocolIndex"
+  />
+  <app-ui-input (onInput)="showSearchedValue($event)" placeholder="Швидкий пошук" inputName="search"
+                iconClass="icon-search"/>
 </header>

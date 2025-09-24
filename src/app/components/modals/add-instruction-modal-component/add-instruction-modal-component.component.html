@@ -25,11 +25,19 @@
       <label class="form__label">Примітки</label>
       <textarea class="form__textarea" type="text" name="tegs" [(ngModel)]="formData.tegs"></textarea>
     </fieldset>
+    @for (protocol of protocols(); track protocol.title) {
+      <div class="form__protocols existing">
+        <p class="form__label">{{ protocol.title }}</p>
+        <app-ui-button type="button" (btnClick)="editProtocol(protocol, $index)">Редагувати</app-ui-button>
+        <app-ui-button type="button" (btnClick)="deleteProtocol(protocol)">Видалити</app-ui-button>
+      </div>
+    }
     <div class="form__protocols">
       <app-ui-button type="button" (btnClick)="openAddProtocolModal()">Додати протокол</app-ui-button>
     </div>
+    <div class="form__btn">
       <app-ui-button type="submit">Додати інструкцію</app-ui-button>
-
+    </div>
   </form>
 
 </app-ui-modal>

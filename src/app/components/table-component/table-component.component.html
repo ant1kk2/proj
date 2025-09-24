@@ -44,7 +44,7 @@
   </thead>
   <tbody>
     @for (i of instructions(); track i.id) {
-      <tr class="table__row">
+      <tr class="table__row" (dblclick)="openInstructionModal(i)">
         <td class="table__cell">{{ i.number }}</td>
         <td class="table__cell">{{ i.title }}</td>
         <td class="table__cell">
@@ -60,3 +60,12 @@
     }
   </tbody>
 </table>
+<app-manage-instruction-modal-component
+  [(isManageInstructionModalOpen)]="isManageInstructionModalOpen"
+  [(currentInstruction)] = "currentInstruction"
+  [(isRegProtocolModalOpen)]="isRegProtocolModalOpen"
+  [(currentProtocol)]="currentProtocol"
+/>
+<app-reg-protocol-modal-component
+  [(isRegProtocolModalOpen)]="isRegProtocolModalOpen"
+  [(currentProtocol)]="currentProtocol"/>
