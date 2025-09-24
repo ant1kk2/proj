@@ -56,6 +56,7 @@ export class TableComponentComponent {
   currentInstruction = signal<Instruction>(this.emptyInstruction)
   isRegProtocolModalOpen = signal<boolean>(false)
   currentProtocol = signal<Protocol>(this.emptyProtocol)
+  measurementsArray = signal<string[]>([])
 
   sortByNumberClick = output<void>()
   sortByTitleClick = output<void>()

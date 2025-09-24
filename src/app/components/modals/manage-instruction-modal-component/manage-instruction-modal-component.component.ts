@@ -19,6 +19,7 @@ export class ManageInstructionModalComponentComponent {
   currentInstruction = model.required<Instruction>()
   isRegProtocolModalOpen = model.required<boolean>()
   currentProtocol = model.required<Protocol>()
+  measurementsArray = model.required<string[]>()
 
   protocols = signal<Protocol[]>([]);
   loading = signal(false);
@@ -58,5 +59,10 @@ export class ManageInstructionModalComponentComponent {
   openRegProtocolModal(protocol: Protocol) {
     this.currentProtocol.set(protocol)
     this.isRegProtocolModalOpen.set(true)
+    if(this.currentProtocol().measurements){
+      this.measurementsArray.set(
+        Array.from({ length: this.currentProtocol().measurements! }, (_, i) => i.toString())
+      );
+    }
   }
 }
