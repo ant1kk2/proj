@@ -38,6 +38,7 @@ export class ManageInstructionModalComponentComponent {
         this.error.set(null);
       }
     });
+
   }
 
   private loadProtocols(instructionId: number) {

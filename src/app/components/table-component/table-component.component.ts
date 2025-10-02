@@ -1,4 +1,4 @@
-import {Component, input, model, output, signal} from '@angular/core';
+import {Component, effect, input, model, output, signal} from '@angular/core';
 import {UiButtonComponent} from '../../UIComponents/ui-button/ui-button.component';
 import {Instruction} from '../../interfaces/instruction';
 import {DatePipe} from '@angular/common';
@@ -62,6 +62,14 @@ export class TableComponentComponent {
   sortByTitleClick = output<void>()
   sortByDateClick = output<void>()
   sortByDevClick = output<void>()
+
+  constructor() {
+    effect(() => {
+      if (!this.isRegProtocolModalOpen().valueOf()) {
+        this.currentProtocol.set(this.emptyProtocol)
+      }
+    });
+  }
 
   onSortByNumberClick(event: MouseEvent): void {
     this.sortByNumberClick.emit()

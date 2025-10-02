@@ -1,4 +1,4 @@
 export interface ProtocolJob {
   number: string,
-  jobsDesc: string[]
+  jobsDesc: string[] | {}[]
 }

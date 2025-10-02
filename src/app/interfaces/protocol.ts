@@ -9,3 +9,12 @@ export interface Protocol {
   extraInfo?: string[],
   measurements?: number,
 }
+
+
+export interface RegisteredProtocol {
+  id?: number;
+  equipmentInfo: {}[],
+  jobs: {}[],
+  extraInfo: {}[],
+  measurements: {}[]
+}
