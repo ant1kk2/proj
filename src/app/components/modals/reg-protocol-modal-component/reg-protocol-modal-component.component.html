@@ -5,38 +5,46 @@
       <thead class="protocol__thead">
         @if (currentProtocol().equipmentInfo?.length === 0) {
           <tr class="protocol__tr">
-            <th class="protocol__th" style="font-size: 10px">Роботи згiдно {{currentInstruction().number}}</th>
+            <th class="protocol__th" style="font-size: 10px">Роботи згiдно {{ currentInstruction().number }}</th>
             <th class="protocol__th" colspan="2"><input #equipmentInfoTextInput class="protocol_input" type="text"></th>
             <th class="protocol__th"><input #equipmentNoteTextInput class="protocol_input" type="text"></th>
-            <th class="protocol__th"><input #equipmentInfoCheckboxInput class="protocol_checkbox" type="checkbox" tabIndex="-1"></th>
+            <th class="protocol__th"><input #equipmentInfoCheckboxInput class="protocol_checkbox" type="checkbox"
+                                            tabIndex="-1"></th>
           </tr>
         } @else {
           @if (currentProtocol().equipmentInfo?.length === 1) {
             <tr class="protocol__tr">
-              <th class="protocol__th" style="font-size: 10px">Роботи згiдно {{currentInstruction().number}}</th>
+              <th class="protocol__th" style="font-size: 10px">Роботи згiдно {{ currentInstruction().number }}</th>
               <th class="protocol__th longcell">{{ currentProtocol().equipmentInfo?.[0] }}</th>
               <th class="protocol__th longcell"><input #equipmentInfoTextInput class="protocol_input" type="text"></th>
               <th class="protocol__th longcell"><input #equipmentNoteTextInput class="protocol_input" type="text"></th>
-              <th class="protocol__th longcell"><input #equipmentInfoCheckboxInput class="protocol_checkbox" tabIndex="-1" type="checkbox">
+              <th class="protocol__th longcell"><input #equipmentInfoCheckboxInput class="protocol_checkbox"
+                                                       tabIndex="-1" type="checkbox">
               </th>
             </tr>
           } @else {
             <tr class="protocol__tr">
-              <th class="protocol__th" style="font-size: 10px" [attr.rowspan]="currentProtocol().equipmentInfo?.length">Роботи згiдно {{currentInstruction().number}}</th>
+              <th class="protocol__th" style="font-size: 10px" [attr.rowspan]="currentProtocol().equipmentInfo?.length">
+                Роботи згiдно {{ currentInstruction().number }}
+              </th>
               <th class="protocol__th longcell">{{ currentProtocol().equipmentInfo?.[0] }}</th>
               <th class="protocol__th longcell"><input #equipmentInfoTextInput class="protocol_input" type="text"></th>
               <th class="protocol__th longcell"><input #equipmentNoteTextInput class="protocol_input" type="text"></th>
-              <th class="protocol__th longcell"><input #equipmentInfoCheckboxInput class="protocol_checkbox" tabIndex="-1" type="checkbox">
+              <th class="protocol__th longcell"><input #equipmentInfoCheckboxInput class="protocol_checkbox"
+                                                       tabIndex="-1" type="checkbox">
               </th>
             </tr>
             @for (equipment of currentProtocol().equipmentInfo; let i = $index; track $index) {
               @if (i > 0) {
                 <tr class="protocol__tr">
                   <th class="protocol__th longcell">{{ equipment }}</th>
-                  <th class="protocol__th longcell"><input #equipmentInfoTextInput class="protocol_input" type="text"></th>
-                  <th class="protocol__th longcell"><input #equipmentNoteTextInput class="protocol_input" type="text"></th>
-                  <th class="protocol__th longcell"><input #equipmentInfoCheckboxInput class="protocol_checkbox" tabIndex="-1"
-                                                  type="checkbox"></th>
+                  <th class="protocol__th longcell"><input #equipmentInfoTextInput class="protocol_input" type="text">
+                  </th>
+                  <th class="protocol__th longcell"><input #equipmentNoteTextInput class="protocol_input" type="text">
+                  </th>
+                  <th class="protocol__th longcell"><input #equipmentInfoCheckboxInput class="protocol_checkbox"
+                                                           tabIndex="-1"
+                                                           type="checkbox"></th>
                 </tr>
               }
             }
@@ -51,39 +59,74 @@
         <td class="protocol__td">Примітка</td>
         <td class="protocol__td">Зберегти</td>
       </tr>
-        @for (job of currentProtocol().jobs; track $index) {
+        @for (job of currentProtocol().jobs; let i = $index; track i) {
           @if (job.jobsDesc.length === 1) {
             <tr class="protocol__tr">
               <td class="protocol__td">{{ job.number }}</td>
-              <td class="protocol__td" #jobRow [attr.data-job-number]="job.number" >{{ job.jobsDesc[0] }}</td>
-              <td class="protocol__td"><input #jobResultTextInput class="protocol_input" type="text" [attr.data-cell]=`A${$index}`></td>
-              <td class="protocol__td"><input #jobNoteTextInput class="protocol_input" type="text"></td>
-              <td class="protocol__td"><input #jobResultCheckboxInput class="protocol_checkbox" tabIndex="-1" type="checkbox">
+              <td class="protocol__td" #jobRow [attr.data-job-number]="job.number">{{ job.jobsDesc[0] }}</td>
+              <td class="protocol__td">
+                <input
+                  #jobResultTextInput
+                  class="protocol_input"
+                  type="text"
+                  [attr.data-cell]="'R' + i"
+                  (focus)="onFocus(jobResultTextInput)"
+                  (input)="onInput(jobResultTextInput)"
+                  (blur)="onBlur()"
+                  (mousedown)="onMouseDown($event, jobResultTextInput)"
+                />
               </td>
+              <td class="protocol__td"><input #jobNoteTextInput class="protocol_input" type="text"/></td>
+              <td class="protocol__td"><input #jobResultCheckboxInput class="protocol_checkbox" tabIndex="-1"
+                                              type="checkbox"/></td>
             </tr>
           } @else {
-            <tr class="protocol__tr" >
+            <tr class="protocol__tr">
               <td class="protocol__td" [attr.rowspan]="job.jobsDesc.length">{{ job.number }}</td>
               <td class="protocol__td" #jobRow [attr.data-job-number]="job.number">{{ job.jobsDesc[0] }}</td>
-              <td class="protocol__td"><input #jobResultTextInput class="protocol_input" type="text" [attr.data-cell]=`A${$index}`></td>
-              <td class="protocol__td"><input #jobNoteTextInput class="protocol_input" type="text"></td>
-              <td class="protocol__td"><input #jobResultCheckboxInput class="protocol_checkbox" tabIndex="-1" type="checkbox">
+              <td class="protocol__td">
+                <input
+                  #jobResultTextInput
+                  class="protocol_input"
+                  type="text"
+                  [attr.data-cell]="'R' + i + '0'"
+                  (focus)="onFocus(jobResultTextInput)"
+                  (input)="onInput(jobResultTextInput)"
+                  (blur)="onBlur()"
+                  (mousedown)="onMouseDown($event, jobResultTextInput)"
+                />
               </td>
+              <td class="protocol__td"><input #jobNoteTextInput class="protocol_input" type="text"/></td>
+              <td class="protocol__td"><input #jobResultCheckboxInput class="protocol_checkbox" tabIndex="-1"
+                                              type="checkbox"/></td>
             </tr>
-            @for (jobDesc of job.jobsDesc; let i = $index; track $index) {
-              @if (i > 0) {
-                <tr class="protocol__tr" >
+
+            @for (jobDesc of job.jobsDesc; let j = $index; track j) {
+              @if (j > 0) {
+                <tr class="protocol__tr">
                   <td class="protocol__td longcell" #jobRow [attr.data-job-number]="job.number">{{ jobDesc }}</td>
-                  <td class="protocol__td longcell"><input #jobResultTextInput class="protocol_input" type="text" [attr.data-cell]=`A${$index}`></td>
-                  <td class="protocol__td longcell"><input #jobNoteTextInput class="protocol_input" type="text"></td>
-                  <td class="protocol__td longcell"><input #jobResultCheckboxInput class="protocol_checkbox" tabIndex="-1"
-                                                           type="checkbox">
+                  <td class="protocol__td longcell">
+                    <input
+                      #jobResultTextInput
+                      class="protocol_input"
+                      type="text"
+                      [attr.data-cell]="'R' + i + j"
+                      (focus)="onFocus(jobResultTextInput)"
+                      (input)="onInput(jobResultTextInput)"
+                      (blur)="onBlur()"
+                      (mousedown)="onMouseDown($event, jobResultTextInput)"
+                    />
+                  </td>
+                  <td class="protocol__td longcell"><input #jobNoteTextInput class="protocol_input" type="text"/></td>
+                  <td class="protocol__td longcell">
+                    <input #jobResultCheckboxInput class="protocol_checkbox" tabIndex="-1" type="checkbox"/>
                   </td>
                 </tr>
               }
             }
           }
         }
+
       </tbody>
       <tfoot class="protocol__tfoot">
         @if (currentProtocol().extraInfo?.length === 1) {
@@ -92,7 +135,8 @@
             <td class="protocol__td">{{ currentProtocol().extraInfo?.[0] }}</td>
             <td class="protocol__td"><input #extraInfoTextInput class="protocol_input" type="text"></td>
             <td class="protocol__td"><input #extraInfoNoteTextInput class="protocol_input" type="text"></td>
-            <td class="protocol__td"><input #extraInfoCheckboxInput class="protocol_checkbox" tabIndex="-1" type="checkbox"></td>
+            <td class="protocol__td"><input #extraInfoCheckboxInput class="protocol_checkbox" tabIndex="-1"
+                                            type="checkbox"></td>
           </tr>
         } @else {
           @if (currentProtocol().extraInfo && currentProtocol().extraInfo!.length > 1) {
@@ -101,7 +145,8 @@
               <td class="protocol__td">{{ currentProtocol().extraInfo?.[0] }}</td>
               <td class="protocol__td"><input #extraInfoTextInput class="protocol_input" type="text"></td>
               <td class="protocol__td"><input #extraInfoNoteTextInput class="protocol_input" type="text"></td>
-              <td class="protocol__td"><input #extraInfoCheckboxInput class="protocol_checkbox" tabIndex="-1" type="checkbox">
+              <td class="protocol__td"><input #extraInfoCheckboxInput class="protocol_checkbox" tabIndex="-1"
+                                              type="checkbox">
               </td>
             </tr>
             @for (info of currentProtocol().extraInfo; let i = $index; track $index) {
@@ -147,7 +192,10 @@
     }
   </div>
   <div class="btns">
-    <app-ui-button (btnClick)="showPrevEquipment()">Попередня одиниця обладнання</app-ui-button>
+    <div class="btns__lr">
+      <app-ui-button (btnClick)="showPrevEquipmentProtocol()">&#8592;</app-ui-button>
+      <app-ui-button (btnClick)="showNextEquipmentProtocol()">&#8594;</app-ui-button>
+    </div>
     <app-ui-button (btnClick)="showNextEquipment()">Наступна одиниця обладнання</app-ui-button>
     <app-ui-button (btnClick)="registerProtocol()">Зареєструвати Протокол</app-ui-button>
   </div>
