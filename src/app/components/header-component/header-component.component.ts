@@ -1,4 +1,4 @@
-import {Component, inject, model} from '@angular/core';
+import {Component, inject, input, model} from '@angular/core';
 import {
   AddInstructionModalComponentComponent
 } from '../modals/add-instruction-modal-component/add-instruction-modal-component.component';
@@ -13,6 +13,7 @@ import {Protocol} from '../../interfaces/protocol';
 import {
   EditProtocolModalComponentComponent
 } from '../modals/edit-protocol-modal-component/edit-protocol-modal-component.component';
+import {User} from '../../interfaces/user';
 
 @Component({
   selector: 'app-header-component',
@@ -29,6 +30,7 @@ import {
 
 export class HeaderComponentComponent {
   protocols: Protocol[] = [];
+  user = input.required<User | null>()
 
   instructionsByQuickSearchService: InstructionsByQuickSearchService = inject(InstructionsByQuickSearchService);
 

@@ -6,6 +6,20 @@ import {Observable} from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
+export class InstructionsByIdService {
+  http = inject(HttpClient);
+
+  baseApiUrl = 'http://localhost:3000/api';
+
+  getInstructionsById(id: number): Observable<Instruction> {
+    const params = new HttpParams().set('id', id);
+    return this.http.get<Instruction>(`${(this.baseApiUrl)}/get-instructions-by-id`, {params});
+  }
+}
+
+@Injectable({
+  providedIn: 'root'
+})
 export class InstructionsByWorkshopService {
   http = inject(HttpClient);
 

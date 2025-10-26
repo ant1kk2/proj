@@ -18,3 +18,14 @@ export interface RegisteredProtocol {
   extraInfo: {}[],
   measurements: {}[]
 }
+
+export interface RegProtocol {
+  id: number;
+  instruction_id: number,
+  protocol_date: string,
+  protocol_number: string,
+  protocol_template_id: number,
+  protocol_title: string,
+  user_id: number,
+  user_name?: string
+}

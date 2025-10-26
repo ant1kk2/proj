@@ -12,6 +12,7 @@ import {GetProtocolsService} from '../../../services/get-protocols.service';
     UiButtonComponent,
   ],
   templateUrl: './manage-instruction-modal-component.component.html',
+  standalone: true,
   styleUrl: './manage-instruction-modal-component.component.scss'
 })
 export class ManageInstructionModalComponentComponent {
@@ -20,6 +21,9 @@ export class ManageInstructionModalComponentComponent {
   isRegProtocolModalOpen = model.required<boolean>()
   currentProtocol = model.required<Protocol>()
   measurementsArray = model.required<string[]>()
+  isRegisteredProtocolModalOpen = model.required<boolean>()
+  instructionId = model.required<number>()
+  protocolTemplateId = model.required<number>()
 
   protocols = signal<Protocol[]>([]);
   loading = signal(false);
@@ -65,5 +69,11 @@ export class ManageInstructionModalComponentComponent {
         Array.from({ length: this.currentProtocol().measurements! }, (_, i) => i.toString())
       );
     }
+  }
+
+  openRegisteredProtocols(protocol: Protocol) {
+    this.protocolTemplateId.set(protocol.id!)
+    this.instructionId.set(this.currentInstruction().id);
+    this.isRegisteredProtocolModalOpen.set(true)
   }
 }

@@ -10,6 +10,18 @@ const getInstructions = (req, res) => {
   });
 };
 
+const getInstructionsById = (req, res) => {
+  const { id } = req.query;
+  const sql = `SELECT *
+               FROM db.instructions
+               WHERE id = ?
+               ORDER BY number;`;
+  db.query(sql, [id], (err, result) => {
+    if (err) return res.status(500).json({error: err.message});
+    res.json(result);
+  });
+};
+
 const getInstructionsByWorkshop = (req, res) => {
   const { id } = req.query;
   const sql = `
@@ -42,7 +54,6 @@ const getInstructionsByWorkshop = (req, res) => {
     res.json(results);
   });
 };
-
 
 const getInstructionsByDepartment = (req, res) => {
   const {id} = req.query;
@@ -142,6 +153,7 @@ const getInstructionsByUnit = (req, res) => {
 
 module.exports = {
   getInstructions,
+  getInstructionsById,
   getInstructionsByWorkshop,
   getInstructionsByDepartment,
   getInstructionsBySection,

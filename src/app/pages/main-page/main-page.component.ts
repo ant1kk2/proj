@@ -1,10 +1,12 @@
-import {Component} from '@angular/core';
+import {Component, inject, signal} from '@angular/core';
 import {HeaderComponentComponent} from '../../components/header-component/header-component.component';
 import {AsideComponentComponent} from '../../components/aside-component/aside-component.component';
 import {TableComponentComponent} from '../../components/table-component/table-component.component';
 import {Instruction} from '../../interfaces/instruction';
 import {compareInstructionsByNumbers, compareInstructionsByRevNumbers} from '../../helpers/compareInstructionsByNumber';
 import {compareByDeveloper, compareByDeveloperRev} from '../../helpers/compareInstructionsByDeveloper';
+import {GetUserByIdService} from '../../services/get-user-by-id.service';
+import {User} from '../../interfaces/user';
 
 @Component({
   selector: 'app-main-page',
@@ -18,7 +20,7 @@ import {compareByDeveloper, compareByDeveloperRev} from '../../helpers/compareIn
   styleUrl: './main-page.component.scss'
 })
 export class MainPageComponent {
-
+  private USER_ID: number = 90;
   instructions: Instruction[] = [];
 
   private isNumReversed: boolean = false;
@@ -26,6 +28,32 @@ export class MainPageComponent {
   private isDateReversed: boolean = false;
   private isDevReversed: boolean = false;
   isUnitSelected: boolean = false;
+
+  private getUserService = inject(GetUserByIdService);
+
+  loading = signal(false);
+  error = signal<string | null>(null);
+  user = signal<User | null>(null);
+
+  private loadUser(userId: number) {
+    this.loading.set(true);
+    this.getUserService.getUserById(userId)
+      .subscribe({
+        next: (data) => {
+          this.user.set(data);
+          this.loading.set(false);
+        },
+        error: (err) => {
+          console.error(err);
+          this.error.set('Помилка завантаження протоколiв');
+          this.loading.set(false);
+        }
+      });
+  }
+
+  constructor() {
+    this.loadUser(this.USER_ID)
+  }
 
   sortInstructionsByNumber() {
     this.instructions = this.isNumReversed ?

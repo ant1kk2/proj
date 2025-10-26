@@ -1,27 +1,33 @@
-import {Component, effect, ElementRef, model, QueryList, signal, ViewChildren} from '@angular/core';
+import {Component, computed, effect, ElementRef, input, model, QueryList, signal, ViewChildren} from '@angular/core';
 import {UiModalComponent} from '../../../UIComponents/ui-modal/ui-modal.component';
 import {Protocol, RegisteredProtocol} from '../../../interfaces/protocol';
 import {UiButtonComponent} from '../../../UIComponents/ui-button/ui-button.component';
 import {Instruction} from '../../../interfaces/instruction';
+import {User} from '../../../interfaces/user';
+import {RegisterProtocolService} from '../../../services/register-protocol.service';
 
 @Component({
   selector: 'app-reg-protocol-modal-component',
   imports: [
     UiModalComponent,
-    UiButtonComponent
+    UiButtonComponent,
   ],
   templateUrl: './reg-protocol-modal-component.component.html',
+  standalone: true,
   styleUrl: './reg-protocol-modal-component.component.scss'
 })
 export class RegProtocolModalComponentComponent {
 
+  user = input.required<User | null>()
   isRegProtocolModalOpen = model.required<boolean>()
   currentProtocol = model.required<Protocol>()
   measurementsArray = model.required<string[]>()
   currentInstruction = model.required<Instruction>()
+  protocolTemplateId = computed(() => this.currentProtocol().id)
 
   private isEmptyResultProtocol: boolean = true;
   private currentShownProtocolIndex: number = 0;
+
 
   @ViewChildren('equipmentInfoTextInput') equipmentInfoTextInput!: QueryList<ElementRef<HTMLInputElement>>;
   @ViewChildren('equipmentNoteTextInput') equipmentNoteTextInput!: QueryList<ElementRef<HTMLInputElement>>;
@@ -58,7 +64,7 @@ export class RegProtocolModalComponentComponent {
     }]
   )
 
-  constructor() {
+  constructor(private registerService: RegisterProtocolService) {
     effect(() => {
       this.isRegProtocolModalOpen();
       this.equipmentInfoArray.set([]);
@@ -79,6 +85,7 @@ export class RegProtocolModalComponentComponent {
       this.measurementCheckboxInput?.forEach(i => i.nativeElement.checked = false)
       this.currentShownProtocolIndex = 0
     });
+
   }
 
   showNextEquipment() {
@@ -254,7 +261,32 @@ export class RegProtocolModalComponentComponent {
   }
 
   registerProtocol() {
-    console.log("registerProtocol clicked")
+    console.log(`user id - ${this.user()?.id};
+    instruction id - ${this.currentInstruction().id};
+    protocol number - ${this.user()?.workshop_id}-${this.user()?.department_id}/
+    protocol title - ${this.currentProtocol().title}
+    protocol template id - ${this.protocolTemplateId()}`)
+    console.log(this.resultProtocol())
+    const protocolData = {
+      user_id: this.user()?.id,
+      instruction_id: this.currentInstruction().id,
+      protocol_number: `${this.user()?.workshop_id}-${this.user()?.department_id}/`,
+      protocol_title: this.currentProtocol().title,
+      protocols: this.resultProtocol(),
+      protocol_template_id: this.protocolTemplateId(),
+    }
+
+    this.registerService.sendRegisteredProtocol(protocolData).subscribe({
+      next: (response) => {
+        console.log('✅ Протокол успішно відправлено:', response);
+        alert('Протокол успішно зареєстровано!');
+      },
+      error: (error) => {
+        console.error('Помилка при відправці протоколу:', error);
+        alert('Помилка при збереженні протоколу.');
+      },
+    })
+
   }
 
   /*-------Калькулятор значень в комірках протоколу------------*/
@@ -306,6 +338,19 @@ export class RegProtocolModalComponentComponent {
     }
   }
 
+  onDblClick(e: MouseEvent) {
+    const input = e.target as HTMLInputElement;
+    if (input.parentElement?.previousElementSibling?.textContent?.toLowerCase() === "дата"){
+      const date = new Date();
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1;
+      const day = date.getDate();
+      input.value = `${day}.${month}.${year}`;
+    } else {
+      input.value = "Виконано"
+    }
+  }
+
   private recalcAll() {
     this.ensureCellMap();
     this.resultInputs.forEach(el => {
@@ -334,7 +379,7 @@ export class RegProtocolModalComponentComponent {
       if (!/^[0-9+\-*/().\sNaN]+$/.test(body)) return NaN;
       try {
         const result = Function('"use strict"; return (' + body + ')')();
-        return (typeof result === 'number' && isFinite(result)) ? result : NaN;
+        return (typeof result === 'number' && isFinite(result)) ? Math.round(result * 100) / 100 : NaN;
       } catch {
         return NaN;
       }

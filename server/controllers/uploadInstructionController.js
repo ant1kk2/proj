@@ -58,7 +58,6 @@ const uploadFile = (req, res) => {
 
   const path_pdf = null;
 
-  // Парсим протоколы
   let parsedProtocols = [];
   if (protocols) {
     try {

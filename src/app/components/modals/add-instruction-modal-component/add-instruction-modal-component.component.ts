@@ -1,9 +1,10 @@
-import {Component, model} from '@angular/core';
+import {Component, input, model} from '@angular/core';
 import {UiButtonComponent} from '../../../UIComponents/ui-button/ui-button.component';
 import {UiModalComponent} from '../../../UIComponents/ui-modal/ui-modal.component';
 import {UploadInstructionService} from '../../../services/upload-instruction.service';
 import {FormsModule} from '@angular/forms';
 import {Protocol} from '../../../interfaces/protocol';
+import {User} from '../../../interfaces/user';
 
 @Component({
   selector: 'app-add-instruction-modal-component',
@@ -19,7 +20,7 @@ import {Protocol} from '../../../interfaces/protocol';
 export class AddInstructionModalComponentComponent {
   protocols = model<Protocol[]>([]);
   currentProtocolIndex = model<number>(0);
-  user_id: number = 90;
+  user = input.required<User | null>()
   path_pdf: null = null;
   path_word: string = "";
 
@@ -69,12 +70,10 @@ export class AddInstructionModalComponentComponent {
 
   onSubmit(): void {
     if (!this.selectedFile) {
-      console.error('Файл не выбран');
-      alert('Пожалуйста, выберите файл для загрузки.');
+      console.error('Оберіть файл');
+      alert('Оберіть файл для завантаження');
       return;
     }
-
-
 
     const data = {
       number: this.formData.number,
@@ -82,7 +81,7 @@ export class AddInstructionModalComponentComponent {
       date: this.formData.date,
       tegs: this.formData.tegs,
       file: this.selectedFile,
-      user_id: this.user_id,
+      user_id: this.user()?.id,
       path_pdf: this.path_pdf,
       path_word: this.path_word,
       protocols: JSON.stringify(this.protocols())

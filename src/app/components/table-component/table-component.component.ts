@@ -9,6 +9,10 @@ import {
   RegProtocolModalComponentComponent
 } from '../modals/reg-protocol-modal-component/reg-protocol-modal-component.component';
 import {Protocol} from '../../interfaces/protocol';
+import {User} from '../../interfaces/user';
+import {
+  RegisteredProtocolModalComponentComponent
+} from '../modals/registered-protocol-modal-component/registered-protocol-modal-component.component';
 
 @Component({
   selector: 'app-table-component',
@@ -16,13 +20,19 @@ import {Protocol} from '../../interfaces/protocol';
     UiButtonComponent,
     DatePipe,
     ManageInstructionModalComponentComponent,
-    RegProtocolModalComponentComponent
+    RegProtocolModalComponentComponent,
+    RegisteredProtocolModalComponentComponent
   ],
   templateUrl: './table-component.component.html',
   standalone: true,
   styleUrl: './table-component.component.scss'
 })
 export class TableComponentComponent {
+  user = input.required<User | null>()
+
+  protocolTemplateId = signal<number>(-1);
+  instructionId = signal<number>(-1)
+
   emptyInstruction: Instruction = {
     id: 0,
     number: "",
@@ -57,6 +67,7 @@ export class TableComponentComponent {
   isRegProtocolModalOpen = signal<boolean>(false)
   currentProtocol = signal<Protocol>(this.emptyProtocol)
   measurementsArray = signal<string[]>([])
+  isRegisteredProtocolModalOpen = signal(false)
 
   sortByNumberClick = output<void>()
   sortByTitleClick = output<void>()

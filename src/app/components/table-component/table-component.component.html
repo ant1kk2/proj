@@ -66,9 +66,18 @@
   [(isRegProtocolModalOpen)]="isRegProtocolModalOpen"
   [(currentProtocol)]="currentProtocol"
   [(measurementsArray)]="measurementsArray"
+  [(isRegisteredProtocolModalOpen)]="isRegisteredProtocolModalOpen"
+  [(protocolTemplateId)]="protocolTemplateId"
+  [(instructionId)]="instructionId"
 />
 <app-reg-protocol-modal-component
+  [user] = "user()"
   [(measurementsArray)]="measurementsArray"
   [(currentInstruction)] = "currentInstruction"
   [(isRegProtocolModalOpen)]="isRegProtocolModalOpen"
   [(currentProtocol)]="currentProtocol"/>
+<app-registered-protocol-modal-component
+  [(isRegisteredProtocolModalOpen)]="isRegisteredProtocolModalOpen"
+  [(protocolTemplateId)]="protocolTemplateId"
+  [(instructionId)]="instructionId"
+/>

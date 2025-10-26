@@ -5,6 +5,7 @@
     [(protocols)]="protocols"
     [(currentProtocol)]="currentProtocol"
     [(currentProtocolIndex)]="currentProtocolIndex"
+    [user]="user()"
   />
   <app-add-protocol-modal-component
     [(isAddProtocolModalOpen)]="isAddProtocolModalOpen"
@@ -14,6 +15,6 @@
     [(protocols)]="protocols"
     [(currentProtocolIndex)]="currentProtocolIndex"
   />
-  <app-ui-input (onInput)="showSearchedValue($event)" placeholder="Швидкий пошук" inputName="search"
+  <app-ui-input (onInput)="showSearchedValue($event)" placeholder="Швидкий пошук інструкції" inputName="search"
                 iconClass="icon-search"/>
 </header>

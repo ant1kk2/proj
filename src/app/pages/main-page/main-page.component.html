@@ -1,5 +1,5 @@
 <main class="main">
-  <app-header-component class="main__header" [(instructions)]="instructions"></app-header-component>
+  <app-header-component class="main__header" [(instructions)]="instructions" [user]="user()"></app-header-component>
   <app-aside-component class="main__aside"
                        [(instructions)]="instructions"
                        [(isUnitSelected)]="isUnitSelected"
@@ -10,5 +10,6 @@
                        (sortByTitleClick)="sortInstructionsByTitle()"
                        (sortByDateClick)="sortInstructionsByDate()"
                        (sortByDevClick)="sortInstructionsByDeveloper()"
+                       [user]="user()"
                        [(isUnitSelected)]="isUnitSelected"></app-table-component>
 </main>

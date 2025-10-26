@@ -70,6 +70,7 @@
                   class="protocol_input"
                   type="text"
                   [attr.data-cell]="'R' + i"
+                  (dblclick)="onDblClick($event)"
                   (focus)="onFocus(jobResultTextInput)"
                   (input)="onInput(jobResultTextInput)"
                   (blur)="onBlur()"
@@ -90,6 +91,7 @@
                   class="protocol_input"
                   type="text"
                   [attr.data-cell]="'R' + i + '0'"
+                  (dblclick)="onDblClick($event)"
                   (focus)="onFocus(jobResultTextInput)"
                   (input)="onInput(jobResultTextInput)"
                   (blur)="onBlur()"
@@ -111,6 +113,7 @@
                       class="protocol_input"
                       type="text"
                       [attr.data-cell]="'R' + i + j"
+                      (dblclick)="onDblClick($event)"
                       (focus)="onFocus(jobResultTextInput)"
                       (input)="onInput(jobResultTextInput)"
                       (blur)="onBlur()"
@@ -133,7 +136,7 @@
           <tr class="protocol__tr">
             <td class="protocol__td"></td>
             <td class="protocol__td">{{ currentProtocol().extraInfo?.[0] }}</td>
-            <td class="protocol__td"><input #extraInfoTextInput class="protocol_input" type="text"></td>
+            <td class="protocol__td"><input #extraInfoTextInput (dblclick)="onDblClick($event)" class="protocol_input" type="text"></td>
             <td class="protocol__td"><input #extraInfoNoteTextInput class="protocol_input" type="text"></td>
             <td class="protocol__td"><input #extraInfoCheckboxInput class="protocol_checkbox" tabIndex="-1"
                                             type="checkbox"></td>
@@ -143,7 +146,7 @@
             <tr class="protocol__tr">
               <td class="protocol__td" [attr.rowspan]="currentProtocol().extraInfo?.length"></td>
               <td class="protocol__td">{{ currentProtocol().extraInfo?.[0] }}</td>
-              <td class="protocol__td"><input #extraInfoTextInput class="protocol_input" type="text"></td>
+              <td class="protocol__td"><input #extraInfoTextInput (dblclick)="onDblClick($event)" class="protocol_input" type="text"></td>
               <td class="protocol__td"><input #extraInfoNoteTextInput class="protocol_input" type="text"></td>
               <td class="protocol__td"><input #extraInfoCheckboxInput class="protocol_checkbox" tabIndex="-1"
                                               type="checkbox">
@@ -153,7 +156,7 @@
               @if (i > 0) {
                 <tr class="protocol__tr">
                   <td class="protocol__td longcell">{{ info }}</td>
-                  <td class="protocol__td"><input #extraInfoTextInput class="protocol_input" type="text"></td>
+                  <td class="protocol__td"><input #extraInfoTextInput (dblclick)="onDblClick($event)" class="protocol_input" type="text"></td>
                   <td class="protocol__td"><input #extraInfoNoteTextInput class="protocol_input" type="text"></td>
                   <td class="protocol__td"><input #extraInfoCheckboxInput class="protocol_checkbox" tabIndex="-1"
                                                   type="checkbox"></td>
@@ -199,5 +202,4 @@
     <app-ui-button (btnClick)="showNextEquipment()">Наступна одиниця обладнання</app-ui-button>
     <app-ui-button (btnClick)="registerProtocol()">Зареєструвати Протокол</app-ui-button>
   </div>
-
 </app-ui-modal>

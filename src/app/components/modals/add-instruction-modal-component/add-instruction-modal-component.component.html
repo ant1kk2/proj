@@ -3,7 +3,7 @@
   [(isOpen)]="isAddInstructionModalOpen"
   width="600"
 >
-  <p class="developer">ЦТАВ;Автоматика;ГССЖ-1, ГСЗБ-1, ГН-1;ГССЖ-1 Константинов</p>
+  <p class="developer">{{ user()?.workshop }}; {{ user()?.department }}; {{ user()?.section }}; {{ user()?.unit }} {{user()?.title}}</p>
   <form class="form" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
     <fieldset class="form__fieldset">
       <label class="form__label">Введіть № ТІ</label>
