@@ -1,0 +1,18 @@
+import {inject, Injectable} from '@angular/core';
+import {HttpClient, HttpParams} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {RegProtocol} from '../interfaces/protocol';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class GetRegisteredProtocolsService {
+  http = inject(HttpClient);
+
+  baseApiUrl = 'http://localhost:3000/api';
+
+  getRegisteredProtocolsByInstructionIdAndProtTemplateId(instructionId: number, protocolTemplateId: number): Observable<RegProtocol[]> {
+    const params = new HttpParams({ fromObject: { instructionId, protocolTemplateId } });
+    return this.http.get<RegProtocol[]>(`${this.baseApiUrl}/get-registered-protocols-by-ids`, { params });
+  }
+}

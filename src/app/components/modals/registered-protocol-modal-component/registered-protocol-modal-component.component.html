@@ -1,0 +1,27 @@
+<app-ui-modal [(isOpen)]="isRegisteredProtocolModalOpen" width="950">
+  <div class="protocols">
+    <table class="table">
+      <thead class="thead">
+      <tr class="tr">
+        <th class="th">Назва Протоколу</th>
+        <th class="th">Номер протоколу</th>
+        <th class="th">Дата реєстрації</th>
+        <th class="th">Протокол зареєстрував</th>
+        <th class="th">Детальна інформація</th>
+      </tr>
+      </thead>
+      <tbody class="tbody">
+        @for (protocol of protocols(); track protocol.id) {
+          <tr class="tr">
+            <td class="td">{{ protocol.protocol_title }}</td>
+            <td class="td">{{ protocol.protocol_number }}</td>
+            <td class="td">{{ protocol.protocol_date }}</td>
+            <td class="td">{{ protocol.user_name }}</td>
+            <td class="td"><app-ui-button (btnClick)="showDetails(protocol.id, protocol.protocol_template_id)">Показати</app-ui-button></td>
+
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</app-ui-modal>
