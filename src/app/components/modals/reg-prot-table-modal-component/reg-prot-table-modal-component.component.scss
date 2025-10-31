@@ -1,0 +1,92 @@
+.title {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.protocol {
+  border-collapse: collapse;
+  max-height: 800px;
+  margin: 0 auto;
+  overflow-y: scroll;
+}
+
+.protocol th,
+.protocol td {
+  border: 1px solid black;
+}
+
+.protocol__table,
+.protocol__zvt-table {
+  border: 2px solid black;
+  margin-bottom: 10px;
+}
+
+.protocol__th,
+.protocol__td,
+.protocol__zvt-td,
+.protocol__zvt-th {
+  padding: 5px 10px;
+  height: 28px;
+}
+
+.protocol__th:first-child,
+.protocol__td:first-child,
+{
+  text-align: left;
+  width: 50px;
+  overflow-x: hidden;
+  word-wrap: break-word;
+  text-overflow: ellipsis;
+  max-width: 80px;
+}
+
+.protocol__th:nth-child(2),
+.protocol__td:nth-child(2) {
+  width: 500px;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  max-width: 500px;
+  text-align: left;
+}
+
+.protocol__th:nth-child(3),
+.protocol__td:nth-child(3) {
+  width: 100px;
+}
+
+.protocol__th:nth-child(4),
+.protocol__td:nth-child(4) {
+  width: 150px;
+  text-align: center;
+}
+
+.protocol__th:nth-child(5),
+.protocol__td:nth-child(5) {
+  width: auto;
+  text-align: center;
+}
+
+.protocol__td.longcell:first-child,
+.protocol__th.longcell:first-child {
+  width: 400px;
+  text-align: left;
+}
+
+.protocol__td:nth-child(2).longcell,
+.protocol__th:nth-child(2).longcell {
+  width: 100px;
+  text-align: left;
+}
+
+.protocol__td:nth-child(3).longcell,
+.protocol__th:nth-child(3).longcell {
+  text-align: center;
+  width: 50px;
+}
+.protocol__td:nth-child(4).longcell,
+.protocol__th:nth-child(4).longcell {
+  text-align: center;
+  width: 50px;
+}
+
+

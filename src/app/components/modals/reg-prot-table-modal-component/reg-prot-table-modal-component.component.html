@@ -1,0 +1,127 @@
+<app-ui-modal [(isOpen)]="isRegProtTableModalOpen" width="950">
+
+  <div class="protocol">
+    <table class="protocol__table">
+      <thead class="protocol__thead">
+        @if (protocolTemplate()?.equipmentInfo?.length === 0) {
+          <tr class="protocol__tr">
+            <th class="protocol__th" style="font-size: 10px">Роботи згiдно {{ instruction()?.number }}</th>
+            <th class="protocol__th" colspan="2"></th>
+          </tr>
+        } @else {
+          @if (protocolTemplate()?.equipmentInfo?.length === 1) {
+            <tr class="protocol__tr">
+              <th class="protocol__th" style="font-size: 10px">Роботи згiдно {{ instruction()?.number }}</th>
+              <th class="protocol__th longcell">{{ protocolTemplate()?.equipmentInfo?.[0] }}</th>
+              @for (protocol of protocol(); track $index) {
+                <th class="protocol__th longcell">{{ getEquipmentInfoDisplay(protocol.equipmentInfo![0]) }}</th>
+              }
+            </tr>
+          } @else {
+            <tr class="protocol__tr">
+              <th class="protocol__th" style="font-size: 10px"
+                  [attr.rowspan]="protocolTemplate()?.equipmentInfo?.length">
+                Роботи згiдно {{ instruction()?.number }}
+              </th>
+              <th class="protocol__th longcell">{{ protocolTemplate()?.equipmentInfo?.[0] }}</th>
+              @for (protocol of protocol(); track $index) {
+                <th class="protocol__th longcell">
+                  {{ getEquipmentInfoDisplay(protocol.equipmentInfo![0]) }}
+                </th>
+              }
+            </tr>
+            @for (equipment of protocolTemplate()?.equipmentInfo; let i = $index; track $index) {
+              @if (i > 0) {
+                <tr class="protocol__tr">
+                  <th class="protocol__th longcell">{{ equipment }}</th>
+                  @for (protocol of protocol(); track $index) {
+                    <th class="protocol__th longcell" style="text-align: center">
+                      {{ getEquipmentInfoDisplay(protocol.equipmentInfo![i]) }}
+                    </th>
+                  }
+                </tr>
+              }
+            }
+          }
+        }
+      </thead>
+      <tbody class="protocol__tbody">
+      <tr class="protocol__tr">
+        <td class="protocol__td">{{ protocolTemplate()?.repairType }}</td>
+        <td class="protocol__td">Роботи, що виконуються</td>
+      </tr>
+        @for (jobTemplate of protocolTemplate()?.jobs; let m = $index; track m) {
+          @if (jobTemplate.jobsDesc.length === 1) {
+            <tr class="protocol__tr">
+              <td class="protocol__td">{{ jobTemplate.number }}</td>
+              <td class="protocol__td" [attr.data-job-number]="jobTemplate.number">{{ jobTemplate.jobsDesc[0] }}</td>
+              @for (protocol of protocol(); let i = $index; track i) {
+                 <td class="protocol__td longcell" style="text-align: center">{{getJobDisplay(protocol.jobs[m])}}</td>
+              }
+            </tr>
+          } @else {
+            <tr class="protocol__tr">
+              <td class="protocol__td" [attr.rowspan]="jobTemplate.jobsDesc.length">{{ jobTemplate.number }}</td>
+              <td class="protocol__td" [attr.data-job-number]="jobTemplate.number">{{ jobTemplate.jobsDesc[0] }}</td>
+              @for (protocol of protocol(); let i = $index; track i) {
+                <td class="protocol__td longcell">{{ getJobDisplay(protocol.jobs[m])[0]}}</td>
+              }
+            </tr>
+            @for (jobDesc of jobTemplate.jobsDesc; let j = $index; track j) {
+              @if (j > 0) {
+                <tr class="protocol__tr">
+                  <td class="protocol__td longcell" [attr.data-job-number]="jobTemplate.number">{{ jobDesc }}</td>
+                  @for (protocol of protocol(); let i = $index; track i) {
+                    <td class="protocol__td longcell" style="text-align: center">{{getJobDisplay(protocol.jobs[m])[j]}}</td>
+                  }
+                </tr>
+              }
+            }
+          }
+        }
+
+      </tbody>
+      <tfoot class="protocol__tfoot">
+        @if (protocolTemplate()?.extraInfo?.length === 1) {
+          <tr class="protocol__tr">
+            <td class="protocol__td"></td>
+            <td class="protocol__td">{{ protocolTemplate()?.extraInfo?.[0] }}</td>
+            @for (protocol of protocol(); track $index) {
+              <td class="protocol__td longcell">{{ getEquipmentInfoDisplay(protocol.extraInfo![0]) }}</td>
+            }
+          </tr>
+        } @else {
+          @if (protocolTemplate()?.extraInfo && protocolTemplate()?.extraInfo!.length > 1) {
+            <tr class="protocol__tr">
+              <td class="protocol__td" [attr.rowspan]="protocolTemplate()?.extraInfo?.length"></td>
+              <td class="protocol__td">{{ protocolTemplate()?.extraInfo?.[0] }}</td>
+              @for (protocol of protocol(); track $index) {
+                <td class="protocol__td longcell">{{ getEquipmentInfoDisplay(protocol.extraInfo![0]) }}</td>
+              }
+            </tr>
+            @for (info of protocolTemplate()?.extraInfo; let i = $index; track $index) {
+              @if (i > 0) {
+                <tr class="protocol__tr">
+                  <td class="protocol__td longcell">{{ info }}</td>
+                  @for (protocol of protocol(); track $index) {
+                    <td class="protocol__td longcell"
+                        style="text-align: center">{{ getEquipmentInfoDisplay(protocol.extraInfo![i]) }}
+                    </td>
+                  }
+                </tr>
+              }
+            }
+          }
+
+        }
+      <tr class="protocol__tr">
+        <td class="protocol__td longcell"></td>
+        <td class="protocol__td longcell">ЗВТ</td>
+      </tr>
+      </tfoot>
+    </table>
+
+  </div>
+
+
+</app-ui-modal>
