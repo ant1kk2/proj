@@ -5,9 +5,10 @@ export interface Protocol {
   title: string,
   repairType: string,
   equipmentInfo?: string[],
-  jobs: ProtocolJob[],
   extraInfo?: string[],
+  jobs: ProtocolJob[],
   measurements?: number,
+  measurementsArray?: string[],
 }
 
 

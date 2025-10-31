@@ -64,9 +64,9 @@ export class ManageInstructionModalComponentComponent {
   openRegProtocolModal(protocol: Protocol) {
     this.currentProtocol.set(protocol)
     this.isRegProtocolModalOpen.set(true)
-    if(this.currentProtocol().measurements){
+    if (this.currentProtocol().measurements) {
       this.measurementsArray.set(
-        Array.from({ length: this.currentProtocol().measurements! }, (_, i) => i.toString())
+        Array.from({length: this.currentProtocol().measurements!}, (_, i) => i.toString())
       );
     }
   }

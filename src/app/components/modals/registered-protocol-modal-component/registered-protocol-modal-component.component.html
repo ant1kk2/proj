@@ -17,8 +17,7 @@
             <td class="td">{{ protocol.protocol_number }}</td>
             <td class="td">{{ protocol.protocol_date }}</td>
             <td class="td">{{ protocol.user_name }}</td>
-            <td class="td"><app-ui-button (btnClick)="showDetails(protocol.id, protocol.protocol_template_id)">Показати</app-ui-button></td>
-
+            <td class="td"><app-ui-button (btnClick)="showDetails(protocol.id)">Показати</app-ui-button></td>
           </tr>
         }
       </tbody>

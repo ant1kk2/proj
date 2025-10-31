@@ -16,8 +16,9 @@ export class RegisteredProtocolModalComponentComponent {
   loading = signal(false);
   error = signal<string | null>(null);
   protocols = signal<RegProtocol[] | null>(null)
-
+  protocolId = model.required<number>()
   isRegisteredProtocolModalOpen = model.required<boolean>()
+  isRegProtTableModalOpen = model.required<boolean>()
   instructionId = model.required<number>()
   protocolTemplateId = model.required<number>()
 
@@ -32,7 +33,6 @@ export class RegisteredProtocolModalComponentComponent {
           this.protocols.set(data);
           this.loading.set(false);
           this.protocols()?.forEach((protocol: RegProtocol) => {
-            console.log(protocol)
             this.getUserByIdService.getUserById(+protocol.user_id).subscribe({
               next: (data) => {
                 protocol.user_name = data.title
@@ -65,9 +65,9 @@ export class RegisteredProtocolModalComponentComponent {
     });
   }
 
-  showDetails(protocolId: number, protTemplateId: number) {
-    console.log("Protocol Id", protocolId);
-    console.log("Protocol Template Id", protTemplateId);
+  showDetails(protocolId: number) {
+    this.protocolId.set(protocolId)
+    this.isRegProtTableModalOpen.set(true);
   }
 
 }

@@ -11,9 +11,9 @@ export class InstructionsByIdService {
 
   baseApiUrl = 'http://localhost:3000/api';
 
-  getInstructionsById(id: number): Observable<Instruction> {
+  getInstructionsById(id: number): Observable<Instruction[]> {
     const params = new HttpParams().set('id', id);
-    return this.http.get<Instruction>(`${(this.baseApiUrl)}/get-instructions-by-id`, {params});
+    return this.http.get<Instruction[]>(`${(this.baseApiUrl)}/get-instructions-by-id`, {params});
   }
 }
 

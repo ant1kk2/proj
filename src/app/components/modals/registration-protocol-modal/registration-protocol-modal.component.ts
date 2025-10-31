@@ -7,27 +7,25 @@ import {User} from '../../../interfaces/user';
 import {RegisterProtocolService} from '../../../services/register-protocol.service';
 
 @Component({
-  selector: 'app-reg-protocol-modal-component',
+  selector: 'app-registration-protocol-modal-component',
   imports: [
     UiModalComponent,
     UiButtonComponent,
   ],
-  templateUrl: './reg-protocol-modal-component.component.html',
+  templateUrl: './registration-protocol-modal.component.html',
   standalone: true,
-  styleUrl: './reg-protocol-modal-component.component.scss'
+  styleUrl: './registration-protocol-modal.component.scss'
 })
-export class RegProtocolModalComponentComponent {
+export class RegistrationProtocolModalComponent {
 
   user = input.required<User | null>()
-  isRegProtocolModalOpen = model.required<boolean>()
+  isRegistrationProtocolModalOpen = model.required<boolean>()
   currentProtocol = model.required<Protocol>()
   measurementsArray = model.required<string[]>()
   currentInstruction = model.required<Instruction>()
   protocolTemplateId = computed(() => this.currentProtocol().id)
 
-  private isEmptyResultProtocol: boolean = true;
   private currentShownProtocolIndex: number = 0;
-
 
   @ViewChildren('equipmentInfoTextInput') equipmentInfoTextInput!: QueryList<ElementRef<HTMLInputElement>>;
   @ViewChildren('equipmentNoteTextInput') equipmentNoteTextInput!: QueryList<ElementRef<HTMLInputElement>>;
@@ -66,7 +64,7 @@ export class RegProtocolModalComponentComponent {
 
   constructor(private registerService: RegisterProtocolService) {
     effect(() => {
-      this.isRegProtocolModalOpen();
+      this.isRegistrationProtocolModalOpen();
       this.equipmentInfoArray.set([]);
       this.equipmentInfoObject.set([{}]);
       this.extraInfoArray.set([]);
@@ -78,7 +76,6 @@ export class RegProtocolModalComponentComponent {
         extraInfo: [{}],
         measurements: [{}]
       }])
-      this.isEmptyResultProtocol = true;
       this.equipmentInfoCheckboxInput?.forEach(i => i.nativeElement.checked = false)
       this.jobResultCheckboxInput?.forEach(i => i.nativeElement.checked = false)
       this.extraInfoCheckboxInput?.forEach(i => i.nativeElement.checked = false)
@@ -261,12 +258,6 @@ export class RegProtocolModalComponentComponent {
   }
 
   registerProtocol() {
-    console.log(`user id - ${this.user()?.id};
-    instruction id - ${this.currentInstruction().id};
-    protocol number - ${this.user()?.workshop_id}-${this.user()?.department_id}/
-    protocol title - ${this.currentProtocol().title}
-    protocol template id - ${this.protocolTemplateId()}`)
-    console.log(this.resultProtocol())
     const protocolData = {
       user_id: this.user()?.id,
       instruction_id: this.currentInstruction().id,

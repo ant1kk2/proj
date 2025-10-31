@@ -16,4 +16,8 @@ export class GetProtocolsService {
     const params = new HttpParams().set('id', id);
     return this.http.get<Protocol[]>(`${(this.baseApiUrl)}/get-protocols-by-instruction`, {params});
   }
+  getProtocolsByTemplateId(id: number): Observable<Protocol[]> {
+    const params = new HttpParams().set('id', id);
+    return this.http.get<Protocol[]>(`${(this.baseApiUrl)}/get-protocols-by-template-id`, {params});
+  }
 }
