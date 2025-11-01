@@ -8,8 +8,8 @@ import {Observable} from 'rxjs';
 export class UploadInstructionService {
   http = inject(HttpClient);
 
-  // baseApiUrl = 'http://localhost:3000/api';
-  baseApiUrl = '/api';
+  baseApiUrl = 'http://localhost:3000/api';
+  // baseApiUrl = '/api';
   uploadForm(data: any): Observable<any> {
     const formData = new FormData();
 

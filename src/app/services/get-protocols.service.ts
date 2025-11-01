@@ -10,8 +10,8 @@ export class GetProtocolsService {
 
   http = inject(HttpClient);
 
-  // baseApiUrl = 'http://localhost:3000/api';
-  baseApiUrl = '/api';
+  baseApiUrl = 'http://localhost:3000/api';
+  // baseApiUrl = '/api';
   getProtocolsByInstructionId(id: number): Observable<Protocol[]> {
     const params = new HttpParams().set('id', id);
     return this.http.get<Protocol[]>(`${(this.baseApiUrl)}/get-protocols-by-instruction`, {params});

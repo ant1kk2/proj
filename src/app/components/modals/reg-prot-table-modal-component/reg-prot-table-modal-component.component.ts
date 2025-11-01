@@ -19,9 +19,11 @@ export class RegProtTableModalComponentComponent {
   isRegProtTableModalOpen = model.required<boolean>()
   protocolTemplateId = input.required<number>()
   protocolId = input.required<number>()
+
   instructionId = input.required<number>()
   loading = signal(false);
   error = signal<string | null>(null);
+  currentInstruction = model.required<Instruction>()
 
   protocol = signal<Protocol[] | null>(null)
 
@@ -38,7 +40,7 @@ export class RegProtTableModalComponentComponent {
       if (this.isRegProtTableModalOpen()) {
         if (this.protocolId() && this.protocolTemplateId() && this.instructionId()) {
           this.loadProtocolTemplate(this.protocolTemplateId())
-          this.loadInstruction(this.instructionId())
+          this.loadInstruction(this.currentInstruction().id)
           this.loadRegisteredProtocols(this.protocolId())
         }
       } else {
