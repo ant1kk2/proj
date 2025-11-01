@@ -23,7 +23,8 @@ export class InstructionsByIdService {
 export class InstructionsByWorkshopService {
   http = inject(HttpClient);
 
-  baseApiUrl = 'http://localhost:3000/api';
+  // baseApiUrl = 'http://localhost:3000/api';
+  baseApiUrl = '/api';
 
   getInstructionsByWorkshopId(id: number): Observable<Instruction[]> {
     const params = new HttpParams().set('id', id);
@@ -37,7 +38,8 @@ export class InstructionsByWorkshopService {
 export class InstructionsByDepartmentService {
   http = inject(HttpClient);
 
-  baseApiUrl = 'http://localhost:3000/api';
+  // baseApiUrl = 'http://localhost:3000/api';
+  baseApiUrl = '/api';
 
   getInstructionsByDepartmentId(id: number): Observable<Instruction[]> {
     const params = new HttpParams().set('id', id);
@@ -51,7 +53,9 @@ export class InstructionsByDepartmentService {
 export class InstructionsBySectionService {
   http = inject(HttpClient);
 
-  baseApiUrl = 'http://localhost:3000/api';
+  // baseApiUrl = 'http://localhost:3000/api';
+  baseApiUrl = '/api';
+
 
   getInstructionsBySectiontId(id: number): Observable<Instruction[]> {
     const params = new HttpParams().set('id', id);
@@ -65,7 +69,8 @@ export class InstructionsBySectionService {
 export class InstructionsByUnitService {
   http = inject(HttpClient);
 
-  baseApiUrl = 'http://localhost:3000/api';
+  // baseApiUrl = 'http://localhost:3000/api';
+  baseApiUrl = '/api';
 
   getInstructionsByUnitId(id: number): Observable<Instruction[]> {
     const params = new HttpParams().set('id', id);
@@ -79,7 +84,8 @@ export class InstructionsByUnitService {
 export class InstructionsByQuickSearchService {
   http = inject(HttpClient);
 
-  baseApiUrl = 'http://localhost:3000/api';
+  // baseApiUrl = 'http://localhost:3000/api';
+  baseApiUrl = '/api';
 
   getInstructionsByQuickSearch(searchReq: string): Observable<Instruction[]> {
     const params = new HttpParams()
