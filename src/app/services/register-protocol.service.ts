@@ -8,8 +8,8 @@ import {Observable} from 'rxjs';
 export class RegisterProtocolService {
   http = inject(HttpClient);
 
-  baseApiUrl = 'http://localhost:3000/api';
-  // baseApiUrl = '/api';
+  // baseApiUrl = 'http://localhost:3000/api';
+  baseApiUrl = '/api';
   sendRegisteredProtocol(protocolData: any): Observable<any> {
     return this.http.post(`${this.baseApiUrl}/register-protocol`, protocolData);
   }
