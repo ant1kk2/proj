@@ -9,8 +9,8 @@ import {Observable} from 'rxjs';
 export class InstructionsByIdService {
   http = inject(HttpClient);
 
-  baseApiUrl = 'http://localhost:3000/api';
-
+  // baseApiUrl = 'http://localhost:3000/api';
+  baseApiUrl = '/api';
   getInstructionsById(id: number): Observable<Instruction[]> {
     const params = new HttpParams().set('id', id);
     return this.http.get<Instruction[]>(`${(this.baseApiUrl)}/get-instructions-by-id`, {params});

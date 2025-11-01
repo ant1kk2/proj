@@ -38,8 +38,9 @@ const angularDistPath = path.join(__dirname, '../dist/ng-proj/browser');
 app.use(express.static(angularDistPath));
 
 // ✅ Все не-API запросы → Angular index.html
-app.get('*', (req, res) => {
+app.get('/*', (req, res) => {
   res.sendFile(path.join(angularDistPath, 'index.html'));
 });
+
 
 app.listen(port, () => console.log(`🚀 Server running on port ${port}`));
