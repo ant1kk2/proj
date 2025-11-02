@@ -13,7 +13,7 @@ const getInstructions = (req, res) => {
 const getInstructionsById = (req, res) => {
   const { id } = req.query;
   const sql = `SELECT *
-               FROM db.instructions
+               FROM instructions
                WHERE id = ?
                ORDER BY number;`;
   db.query(sql, [id], (err, result) => {
