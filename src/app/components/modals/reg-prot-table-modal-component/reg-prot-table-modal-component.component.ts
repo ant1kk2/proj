@@ -40,7 +40,6 @@ export class RegProtTableModalComponentComponent {
       if (this.isRegProtTableModalOpen()) {
         if (this.protocolId() && this.protocolTemplateId() && this.instructionId()) {
           this.loadProtocolTemplate(this.protocolTemplateId())
-          console.log(this.currentInstruction().id)
           this.loadInstruction(this.currentInstruction().id)
           this.loadRegisteredProtocols(this.protocolId())
         }
@@ -72,7 +71,6 @@ export class RegProtTableModalComponentComponent {
       .subscribe({
         next: (data) => {
           this.instruction.set(data[0]);
-          console.log(this.instruction())
         },
         error: (err) => {
           console.error(err);
@@ -86,7 +84,6 @@ export class RegProtTableModalComponentComponent {
       .subscribe({
         next: (data) => {
           this.protocol.set(this.divideProtocol(data[0], this.protocolTemplate()!));
-          console.log(this.protocol())
         },
         error: (err) => {
           console.error(err);

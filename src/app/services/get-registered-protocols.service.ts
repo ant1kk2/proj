@@ -2,6 +2,7 @@ import {inject, Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Protocol, RegProtocol} from '../interfaces/protocol';
+import {isProd} from '../helpers/isProd';
 
 @Injectable({
   providedIn: 'root'
@@ -9,8 +10,8 @@ import {Protocol, RegProtocol} from '../interfaces/protocol';
 export class GetRegisteredProtocolsService {
   http = inject(HttpClient);
 
-  // baseApiUrl = 'http://localhost:3000/api';
-  baseApiUrl = '/api';
+  baseApiUrl = isProd ? '/api' : 'http://localhost:3000/api'
+
   getRegisteredProtocolsByInstructionIdAndProtTemplateId(instructionId: number, protocolTemplateId: number): Observable<RegProtocol[]> {
     const params = new HttpParams({ fromObject: { instructionId, protocolTemplateId } });
     return this.http.get<RegProtocol[]>(`${this.baseApiUrl}/get-registered-protocols-by-ids`, { params });

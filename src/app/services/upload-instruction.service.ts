@@ -1,6 +1,7 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {isProd} from '../helpers/isProd';
 
 @Injectable({
   providedIn: 'root'
@@ -8,8 +9,8 @@ import {Observable} from 'rxjs';
 export class UploadInstructionService {
   http = inject(HttpClient);
 
-  // baseApiUrl = 'http://localhost:3000/api';
-  baseApiUrl = '/api';
+  baseApiUrl = isProd ? '/api' : 'http://localhost:3000/api'
+
   uploadForm(data: any): Observable<any> {
     const formData = new FormData();
 
