@@ -1,5 +1,7 @@
 <app-ui-modal [(isOpen)]="isRegistrationProtocolModalOpen" width="950">
-  <h4 class="title">{{ currentProtocol().title }}</h4>
+  <h4 class="title">{{ currentProtocol().title }}
+    <input #titleInput class="title_input" type="text">
+  </h4>
   <div class="protocol">
     <table class="protocol__table">
       <thead class="protocol__thead">

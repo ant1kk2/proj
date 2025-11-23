@@ -1,4 +1,15 @@
-import {Component, computed, effect, ElementRef, input, model, QueryList, signal, ViewChildren} from '@angular/core';
+import {
+  Component,
+  computed,
+  effect,
+  ElementRef,
+  input,
+  model,
+  QueryList,
+  signal,
+  ViewChild,
+  ViewChildren
+} from '@angular/core';
 import {UiModalComponent} from '../../../UIComponents/ui-modal/ui-modal.component';
 import {Protocol, RegisteredProtocol} from '../../../interfaces/protocol';
 import {UiButtonComponent} from '../../../UIComponents/ui-button/ui-button.component';
@@ -37,6 +48,7 @@ export class RegistrationProtocolModalComponent {
   @ViewChildren('extraInfoTextInput') extraInfoTextInput!: QueryList<ElementRef<HTMLInputElement>>;
   @ViewChildren('extraInfoNoteTextInput') extraInfoNoteTextInput!: QueryList<ElementRef<HTMLInputElement>>;
   @ViewChildren('extraInfoCheckboxInput') extraInfoCheckboxInput!: QueryList<ElementRef<HTMLInputElement>>;
+  @ViewChild('titleInput') titleInput!: ElementRef<HTMLInputElement>;
 
   @ViewChildren('measurementTextInputTitle') measurementTextInputTitle!: QueryList<ElementRef<HTMLInputElement>>;
   @ViewChildren('measurementTextInputType') measurementTextInputType!: QueryList<ElementRef<HTMLInputElement>>;
@@ -177,8 +189,6 @@ export class RegistrationProtocolModalComponent {
 
     this.currentShownProtocolIndex = this.resultProtocol().length;
 
-    console.log(this.resultProtocol())
-
     this.equipmentInfoCheckboxInput.forEach((checkbox, index) => {
       if (!checkbox.nativeElement.checked) {
         [...this.equipmentInfoTextInput][index].nativeElement.value = "";
@@ -262,7 +272,7 @@ export class RegistrationProtocolModalComponent {
       user_id: this.user()?.id,
       instruction_id: this.currentInstruction().id,
       protocol_number: `${this.user()?.workshop_id}-${this.user()?.department_id}/`,
-      protocol_title: this.currentProtocol().title,
+      protocol_title: `${this.currentProtocol().title}` + " " + this.titleInput.nativeElement.value.trim(),
       protocols: this.resultProtocol(),
       protocol_template_id: this.protocolTemplateId(),
     }
@@ -277,7 +287,6 @@ export class RegistrationProtocolModalComponent {
         alert('Помилка при збереженні протоколу.');
       },
     })
-
   }
 
   /*-------Калькулятор значень в комірках протоколу------------*/

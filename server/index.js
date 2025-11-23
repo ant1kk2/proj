@@ -11,21 +11,18 @@ const userRoute = require('./routes/userDataRoute');
 const app = express();
 const port = process.env.PORT || 3000;
 
-// ✅ Разрешаем CORS
 app.use(cors({
   origin: true,
   credentials: true,
 }));
 
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
 
-// ✅ Подключаем API
 app.use('/uploads', express.static('uploads'));
 app.use('/', asideDataRoute);
 app.use('/', instructionsRoute);
 app.use('/', userRoute);
 
-// ✅ Проверка подключения к БД
 app.get('/test-db', (req, res) => {
   db.query('SHOW TABLES;', (err, results) => {
     if (err) return res.status(500).json({ error: err.message });
@@ -33,11 +30,9 @@ app.get('/test-db', (req, res) => {
   });
 });
 
-// ✅ Angular build путь
 const angularDistPath = path.join(__dirname, '../dist/ng-proj/browser');
 app.use(express.static(angularDistPath));
 
-// ✅ Все не-API запросы → Angular index.html
 app.get('/*', (req, res) => {
   res.sendFile(path.join(angularDistPath, 'index.html'));
 });

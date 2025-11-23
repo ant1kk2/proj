@@ -14,7 +14,10 @@
     [(isEditProtocolModalOpen)]="isEditProtocolModalOpen"
     [(protocols)]="protocols"
     [(currentProtocolIndex)]="currentProtocolIndex"
+    style="flex-grow: 0"
   />
-  <app-ui-input (onInput)="showSearchedValue($event)" placeholder="Швидкий пошук інструкції" inputName="search"
+  <app-search-eq-modal [(isSearchEqModalOpen)]="isSearchEqModalOpen"/>
+  <app-ui-button (btnClick)="openSearchEquipmentModal()">Пошук обладнання</app-ui-button>
+  <app-ui-input (onInput)="showSearchedValue($event)" placeholder="Пошук інструкції" inputName="search"
                 iconClass="icon-search"/>
 </header>

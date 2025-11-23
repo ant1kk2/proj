@@ -135,18 +135,22 @@ export class RegProtTableModalComponentComponent {
       .join(' ');
   }
 
-  getJobDisplay(job: ProtocolJob): string[] {
+  getJobDisplay(job: ProtocolJob): { text: string, hasNote: boolean }[] {
     if (!job?.jobsDesc) return [];
 
     return job.jobsDesc.map(desc => {
       if (typeof desc === 'string') {
-        return desc;
+        return { text: desc, hasNote: false };
       }
+
       const note = (desc as any).note?.trim();
       const key = Object.keys(desc).find(k => k !== 'note');
       const value = key ? (desc as any)[key] : '';
 
-      return note ? `${value} (${note})` : `${value}`;
+      return {
+        text: note ? `${value} (${note})` : `${value}`,
+        hasNote: !!note
+      };
     });
   }
 

@@ -33,12 +33,12 @@
 .protocol__th:first-child,
 .protocol__td:first-child,
 {
-  text-align: left;
   width: 50px;
   overflow-x: hidden;
   word-wrap: break-word;
   text-overflow: ellipsis;
   max-width: 80px;
+  text-align: center;
 }
 
 .protocol__th:nth-child(2),
@@ -67,6 +67,10 @@
   text-align: center;
 }
 
+.protocol__td.longcell, {
+  text-align: center;
+}
+
 .protocol__td.longcell:first-child,
 .protocol__th.longcell:first-child {
   width: 400px;
@@ -77,6 +81,7 @@
 .protocol__th:nth-child(2).longcell {
   width: 100px;
   text-align: left;
+
 }
 
 .protocol__td:nth-child(3).longcell,
@@ -88,6 +93,10 @@
 .protocol__th:nth-child(4).longcell {
   text-align: center;
   width: 50px;
+}
+
+.coloured{
+  background-color: rgba(255, 221, 0, 0.7);
 }
 
 

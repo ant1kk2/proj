@@ -3,8 +3,6 @@ import {HttpClient} from '@angular/common/http';
 import {Workshop} from '../interfaces/asideData';
 import {isProd} from '../helpers/isProd';
 
-
-
 @Injectable({
   providedIn: 'root'
 })

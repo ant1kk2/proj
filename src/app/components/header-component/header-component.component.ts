@@ -1,4 +1,4 @@
-import {Component, inject, input, model} from '@angular/core';
+import {Component, inject, input, model, signal} from '@angular/core';
 import {
   AddInstructionModalComponentComponent
 } from '../modals/add-instruction-modal-component/add-instruction-modal-component.component';
@@ -14,6 +14,8 @@ import {
   EditProtocolModalComponentComponent
 } from '../modals/edit-protocol-modal-component/edit-protocol-modal-component.component';
 import {User} from '../../interfaces/user';
+import {UiButtonComponent} from '../../UIComponents/ui-button/ui-button.component';
+import {SearchEqModalComponent} from '../modals/search-eq-modal/search-eq-modal.component';
 
 @Component({
   selector: 'app-header-component',
@@ -21,7 +23,9 @@ import {User} from '../../interfaces/user';
     AddInstructionModalComponentComponent,
     UiInputComponent,
     AddProtocolModalComponentComponent,
-    EditProtocolModalComponentComponent
+    EditProtocolModalComponentComponent,
+    UiButtonComponent,
+    SearchEqModalComponent
   ],
   templateUrl: './header-component.component.html',
   standalone: true,
@@ -38,6 +42,7 @@ export class HeaderComponentComponent {
 
   isAddProtocolModalOpen: boolean = false;
   isEditProtocolModalOpen: boolean = false;
+  isSearchEqModalOpen = signal<boolean>(false)
   currentProtocol: Protocol = {jobs: [], repairType: '', title: ''};
   currentProtocolIndex: number = 0;
 
@@ -61,5 +66,10 @@ export class HeaderComponentComponent {
   showSearchedValue(e: Event) {
     const inputValue = (e.target as HTMLInputElement).value;
     this.searchDebounced(inputValue)
+  }
+
+  openSearchEquipmentModal(){
+    this.isSearchEqModalOpen.set(true)
+    console.log(123)
   }
 }

@@ -3,6 +3,11 @@
   margin-bottom: 20px;
 }
 
+.title_input{
+  border-radius: 5px;
+  border: 1px solid black;
+}
+
 .protocol {
   border-collapse: collapse;
   max-height: 500px;
@@ -51,6 +56,7 @@
 .protocol__th:nth-child(3),
 .protocol__td:nth-child(3) {
   width: 100px;
+
 }
 
 .protocol__th:nth-child(4),
