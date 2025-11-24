@@ -88,11 +88,16 @@ export class RegistrationProtocolModalComponent {
         extraInfo: [{}],
         measurements: [{}]
       }])
+      this.equipmentInfoTextInput?.forEach(i => i.nativeElement.value = "");
+
       this.equipmentInfoCheckboxInput?.forEach(i => i.nativeElement.checked = false)
       this.jobResultCheckboxInput?.forEach(i => i.nativeElement.checked = false)
       this.extraInfoCheckboxInput?.forEach(i => i.nativeElement.checked = false)
       this.measurementCheckboxInput?.forEach(i => i.nativeElement.checked = false)
-      this.currentShownProtocolIndex = 0
+      this.currentShownProtocolIndex = 0;
+      if(this.titleInput?.nativeElement.value){
+        this.titleInput.nativeElement.value = "";
+      }
     });
 
   }

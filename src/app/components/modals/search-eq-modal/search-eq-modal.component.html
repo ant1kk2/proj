@@ -1,4 +1,26 @@
 <app-ui-modal [(isOpen)]="isSearchEqModalOpen"
-              width="800">
-  123123
+              width="1000">
+  <div class="search__container">
+    <h3 class="search__text">Введіть дані про обладнання або номер ТІ</h3>
+    <input class="search__input" type="text" name="equipment">
+  </div>
+  <div class="search__table-container">
+    <h3 class="search__text" style="margin-bottom: 5px">Оберіть інструкцію, за якою виконувався ремонт</h3>
+    <table class="table">
+      <thead class="table__head">
+      <tr class="table__row">
+        <th class="table__head-cell">№ ТІ</th>
+        <th class="table__head-cell">Найменування ТІ</th>
+        <th class="table__head-cell">Дата затв.</th>
+      </tr>
+      </thead>
+      <tbody class="table__body">
+      <tr class="table__row">
+        <td class="table__body-cell">20915546.253.00800 ТІ</td>
+        <td class="table__head-cell">Технічне обслуговування та ремонт шафи електричної розподільної. Технологічна інструкція</td>
+        <td class="table__head-cell">26.07.2023</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
 </app-ui-modal>

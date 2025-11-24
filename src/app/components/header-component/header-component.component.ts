@@ -70,6 +70,5 @@ export class HeaderComponentComponent {
 
   openSearchEquipmentModal(){
     this.isSearchEqModalOpen.set(true)
-    console.log(123)
   }
 }
