@@ -1,16 +1,18 @@
 import {Component, effect, inject, input, model, signal} from '@angular/core';
 import {UiModalComponent} from '../../../UIComponents/ui-modal/ui-modal.component';
 import {GetProtocolsService} from '../../../services/get-protocols.service';
-import {Protocol} from '../../../interfaces/protocol';
+import {Measurement, Protocol} from '../../../interfaces/protocol';
 import {InstructionsByIdService} from '../../../services/instructions.service';
 import {Instruction} from '../../../interfaces/instruction';
 import {GetRegisteredProtocolsService} from '../../../services/get-registered-protocols.service';
 import {ProtocolJob} from '../../../interfaces/protocolJob';
+import {UiButtonComponent} from '../../../UIComponents/ui-button/ui-button.component';
 
 @Component({
   selector: 'app-reg-prot-table-modal-component',
   imports: [
     UiModalComponent,
+    UiButtonComponent,
   ],
   templateUrl: './reg-prot-table-modal-component.component.html',
   styleUrl: './reg-prot-table-modal-component.component.scss'
@@ -30,22 +32,27 @@ export class RegProtTableModalComponentComponent {
   protocolTemplate = signal<Protocol | null>(null)
   instruction = signal<Instruction | null>(null)
 
+  measurementsArray = signal<Measurement[] | null>(null)
+
   private getProtocolsService = inject(GetProtocolsService)
   private getInstructionService = inject(InstructionsByIdService)
   private getRegisteredProtocolsService = inject(GetRegisteredProtocolsService);
 
 
   constructor() {
+    this.measurementsArray.set(null)
     effect(() => {
       if (this.isRegProtTableModalOpen()) {
         if (this.protocolId() && this.protocolTemplateId() && this.instructionId()) {
           this.loadProtocolTemplate(this.protocolTemplateId())
           this.loadInstruction(this.currentInstruction().id)
           this.loadRegisteredProtocols(this.protocolId())
+          this.measurementsArray.set(null)
         }
       } else {
         this.protocolTemplate.set(null);
         this.error.set(null);
+        this.measurementsArray.set(null)
       }
     });
   }
@@ -84,6 +91,7 @@ export class RegProtTableModalComponentComponent {
       .subscribe({
         next: (data) => {
           this.protocol.set(this.divideProtocol(data[0], this.protocolTemplate()!));
+          console.log(this.protocol())
         },
         error: (err) => {
           console.error(err);
@@ -131,7 +139,7 @@ export class RegProtTableModalComponentComponent {
     const note = equipment.note?.trim();
     return Object.entries(equipment)
       .filter(([k]) => k !== 'note')
-      .map(([k, v]) => note ? `${v} (${note})` : `${v}`)
+      .map(([_, v]) => note ? `${v} (${note})` : `${v}`)
       .join(' ');
   }
 
@@ -152,6 +160,10 @@ export class RegProtTableModalComponentComponent {
         hasNote: !!note
       };
     });
+  }
+
+  showMeasurements(measurementsArray: Measurement[]) {
+    this.measurementsArray.set(measurementsArray)
   }
 
   protected readonly Object = Object;
