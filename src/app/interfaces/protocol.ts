@@ -8,7 +8,7 @@ export interface Protocol {
   extraInfo?: string[],
   jobs: ProtocolJob[],
   measurements?: number,
-  measurementsArray?: string[],
+  measurementsArray?: Measurement[],
 }
 
 
@@ -29,4 +29,11 @@ export interface RegProtocol {
   protocol_title: string,
   user_id: number,
   user_name?: string
+}
+
+export interface Measurement {
+  date: string,
+  number: string,
+  title: string,
+  type: string,
 }
