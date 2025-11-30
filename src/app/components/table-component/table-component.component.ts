@@ -43,6 +43,7 @@ export class TableComponentComponent {
     number: "",
     title: "",
     date: "",
+    user_id: 0,
     user_title: "",
     unit_title: "",
     section_title: "",
@@ -75,6 +76,7 @@ export class TableComponentComponent {
   isRegisteredProtocolModalOpen = signal(false)
   isRegProtTableModalOpen = signal(false)
 
+
   sortByNumberClick = output<void>()
   sortByTitleClick = output<void>()
   sortByDateClick = output<void>()
@@ -86,6 +88,10 @@ export class TableComponentComponent {
         this.currentProtocol.set(this.emptyProtocol)
       }
     });
+  }
+
+  colourOfRow(instruction: Instruction) {
+    return instruction.colour
   }
 
   onSortByNumberClick(event: MouseEvent): void {

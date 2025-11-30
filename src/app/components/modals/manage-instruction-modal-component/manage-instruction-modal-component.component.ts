@@ -4,12 +4,15 @@ import {Instruction} from '../../../interfaces/instruction';
 import {UiButtonComponent} from '../../../UIComponents/ui-button/ui-button.component';
 import {Protocol} from '../../../interfaces/protocol';
 import {GetProtocolsService} from '../../../services/get-protocols.service';
+import {DatePipe} from '@angular/common';
+import {GetUserPhoneService} from '../../../services/get-user-phone.service';
 
 @Component({
   selector: 'app-manage-instruction-modal-component',
   imports: [
     UiModalComponent,
     UiButtonComponent,
+    DatePipe,
   ],
   templateUrl: './manage-instruction-modal-component.component.html',
   standalone: true,
@@ -24,19 +27,23 @@ export class ManageInstructionModalComponentComponent {
   isRegisteredProtocolModalOpen = model.required<boolean>()
   instructionId = model.required<number>()
   protocolTemplateId = model.required<number>()
+  userPhone = signal<string>("")
 
   protocols = signal<Protocol[]>([]);
   loading = signal(false);
   error = signal<string | null>(null);
 
   private getProtocolsService = inject(GetProtocolsService);
+  private getUserPhoneService = inject(GetUserPhoneService);
 
   constructor() {
     effect(() => {
       if (this.isManageInstructionModalOpen()) {
         if (this.currentInstruction().id) {
           this.loadProtocols(this.currentInstruction().id);
+          this.loadPhone(this.currentInstruction().id)
         }
+        console.log(this.currentInstruction())
       } else {
         this.protocols.set([]);
         this.error.set(null);
@@ -57,6 +64,20 @@ export class ManageInstructionModalComponentComponent {
           console.error(err);
           this.error.set('Помилка завантаження протоколiв');
           this.loading.set(false);
+        }
+      });
+  }
+
+  private loadPhone(instructionId: number) {
+    this.getUserPhoneService.getUserPhone(instructionId)
+      .subscribe({
+        next: (data) => {
+          this.userPhone.set(data);
+          console.log(this.userPhone())
+        },
+        error: (err) => {
+          console.error(err);
+          this.error.set('Помилка завантаження номеру');
         }
       });
   }

@@ -25,9 +25,11 @@
 .form__subtitle{
   text-align: center;
   margin-bottom: 10px;
-  background-color: var(--hover-color);
   padding: 10px 0;
-  border-radius: 4px;
+
+  border-radius: 5px;
+  background-color: var(--hover-color);
+  box-shadow: var(--btn-box-shadow);
 }
 
 .form__subtitle:not(:first-of-type){

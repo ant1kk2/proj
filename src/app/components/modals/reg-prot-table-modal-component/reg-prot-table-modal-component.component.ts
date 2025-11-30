@@ -164,7 +164,7 @@ export class RegProtTableModalComponentComponent {
 
   showMeasurements(measurementsArray: Measurement[]) {
     this.measurementsArray.set(measurementsArray)
-  }
+  } 
 
   protected readonly Object = Object;
 }

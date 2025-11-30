@@ -27,4 +27,19 @@ const getUser = (req, res) => {
   });
 };
 
-module.exports = { getUser };
+const getPhone = (req, res) => {
+  const { id } = req.query;
+  console.log(id)
+  const sql = `SELECT u.phone
+               FROM instructions i
+                      JOIN users u ON i.user_id = u.id
+               WHERE i.id = ?;`;
+  db.query(sql, [id], (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: 'помилка сервера', details: err });
+    }
+    res.json(results[0].phone);
+  });
+};
+
+module.exports = { getUser, getPhone };

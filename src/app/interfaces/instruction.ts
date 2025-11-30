@@ -4,6 +4,7 @@ export interface Instruction {
   title: string;
   date: string;
   user_title: string;
+  user_id: number;
   unit_title: string;
   section_title: string,
   department_title: string,
@@ -11,4 +12,5 @@ export interface Instruction {
   tegs: string;
   path_pdf: string | null;
   path_word: string | null;
+  colour?: string;
 }

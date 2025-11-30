@@ -13,6 +13,7 @@ import {
   InstructionsByWorkshopService
 } from '../../services/instructions.service';
 import {Instruction} from '../../interfaces/instruction';
+import {setInstructionColour} from '../../helpers/dateDifference';
 
 @Component({
   selector: 'app-aside-component',
@@ -50,8 +51,10 @@ export class AsideComponentComponent {
       .getInstructionsByWorkshopId(+workshopId!)
       .subscribe((instructions: Instruction[]) => {
         this.instructions.set(instructions);
+        setInstructionColour(this.instructions())
       });
     this.isUnitSelected.set(false);
+
   }
 
   getInstructionByD(e: MouseEvent) {
@@ -62,6 +65,7 @@ export class AsideComponentComponent {
       .getInstructionsByDepartmentId(+departmentId!)
       .subscribe((instructions: Instruction[]) => {
         this.instructions.set(instructions);
+        setInstructionColour(this.instructions())
       });
     this.isUnitSelected.set(false);
   }
@@ -74,6 +78,7 @@ export class AsideComponentComponent {
       .getInstructionsBySectiontId(+sectionId!)
       .subscribe((instructions: Instruction[]) => {
         this.instructions.set(instructions);
+        setInstructionColour(this.instructions())
       });
     this.isUnitSelected.set(false);
   }
@@ -86,6 +91,7 @@ export class AsideComponentComponent {
       .getInstructionsByUnitId(+unitId!)
       .subscribe((instructions: Instruction[]) => {
         this.instructions.set(instructions);
+        setInstructionColour(this.instructions())
       });
     this.isUnitSelected.set(true);
   }

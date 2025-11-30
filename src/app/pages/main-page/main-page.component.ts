@@ -45,7 +45,7 @@ export class MainPageComponent {
         },
         error: (err) => {
           console.error(err);
-          this.error.set('Помилка завантаження протоколiв');
+          this.error.set('Помилка завантаження користувачiв');
           this.loading.set(false);
         }
       });
