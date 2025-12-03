@@ -7,6 +7,19 @@ import {isProd} from '../helpers/isProd';
 @Injectable({
   providedIn: 'root'
 })
+export class InstructionsAll {
+  http = inject(HttpClient);
+
+  baseApiUrl = isProd ? '/api' : 'http://localhost:3000/api'
+
+  getInstructionsAll(): Observable<Instruction[]> {
+    return this.http.get<Instruction[]>(`${(this.baseApiUrl)}/get-instructions`);
+  }
+}
+
+@Injectable({
+  providedIn: 'root'
+})
 export class InstructionsByIdService {
   http = inject(HttpClient);
 

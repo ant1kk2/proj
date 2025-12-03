@@ -1,10 +1,12 @@
-import {Component, input, model} from '@angular/core';
+import {Component, computed, effect, ElementRef, inject, input, model, signal, ViewChild} from '@angular/core';
 import {UiButtonComponent} from '../../../UIComponents/ui-button/ui-button.component';
 import {UiModalComponent} from '../../../UIComponents/ui-modal/ui-modal.component';
 import {UploadInstructionService} from '../../../services/upload-instruction.service';
 import {FormsModule} from '@angular/forms';
 import {Protocol} from '../../../interfaces/protocol';
 import {User} from '../../../interfaces/user';
+import {InstructionsAll} from '../../../services/instructions.service';
+import {Instruction} from '../../../interfaces/instruction';
 
 @Component({
   selector: 'app-add-instruction-modal-component',
@@ -18,19 +20,28 @@ import {User} from '../../../interfaces/user';
   styleUrl: './add-instruction-modal-component.component.scss'
 })
 export class AddInstructionModalComponentComponent {
+
   protocols = model<Protocol[]>([]);
   currentProtocolIndex = model<number>(0);
   user = input.required<User | null>()
   path_pdf: null = null;
   path_word: string = "";
 
-  isAddInstructionModalOpen: boolean = false;
+  isAddInstructionModalOpen = signal<boolean>(false);
   isAddProtocolModalOpen = model<boolean>(false)
   isEditProtocolModalOpen = model<boolean>(false)
   currentProtocol = model<Protocol>({jobs: [], repairType: '', title: ''})
 
+  @ViewChild("docsSelect") docsSelect!: ElementRef<HTMLSelectElement>;
+
+  instructions = signal<Instruction[]>([])
+  relatedDocs = signal<Instruction[]>([])
+  relatedDocsIds = computed<string>(() => this.relatedDocs().map(d => d.id).join(","))
+
+  private InstructionsAllService = inject(InstructionsAll);
+
   openAddInstructionModal() {
-    this.isAddInstructionModalOpen = true;
+    this.isAddInstructionModalOpen.set(true);
   }
 
   openAddProtocolModal() {
@@ -52,11 +63,19 @@ export class AddInstructionModalComponentComponent {
     number: '',
     title: '',
     date: '',
-    tegs: ''
+    tegs: '',
+    docs: '',
   };
   selectedFile: File | null = null;
 
   constructor(private uploadInstructionService: UploadInstructionService) {
+    effect(() => {
+      if (this.isAddInstructionModalOpen()) {
+        this.loadInstructions();
+        this.docsSelect.nativeElement.value = "-1";
+        this.relatedDocs.set([])
+      }
+    });
   }
 
   onFileSelected(event: Event): void {
@@ -84,7 +103,8 @@ export class AddInstructionModalComponentComponent {
       user_id: this.user()?.id,
       path_pdf: this.path_pdf,
       path_word: this.path_word,
-      protocols: JSON.stringify(this.protocols())
+      protocols: JSON.stringify(this.protocols()),
+      relatedDocsIds: this.relatedDocsIds()
     };
 
     this.uploadInstructionService.uploadForm(data).subscribe({
@@ -98,4 +118,36 @@ export class AddInstructionModalComponentComponent {
       }
     });
   }
+
+  private loadInstructions() {
+    this.InstructionsAllService.getInstructionsAll()
+      .subscribe({
+        next: (data) => {
+          this.instructions.set(data);
+          console.log(this.instructions())
+        },
+        error: (err) => {
+          console.error(err);
+        }
+      });
+  }
+
+  addRelDoc() {
+    const instructionId = +this.docsSelect.nativeElement.value;
+    if (instructionId === -1) return
+    const instruction = this.instructions().filter(i => +i.id === instructionId)[0];
+
+    const isExist = this.relatedDocs().find(i => +i.id === +instructionId)
+
+    if (!isExist) {
+      this.relatedDocs.update(i => [...i, instruction])
+    } else {
+      alert("Ця інструкція вже додана")
+    }
+  }
+
+  delRelDoc(id: number) {
+    this.relatedDocs.update(d => d.filter(i => +i.id !== id))
+  }
+
 }

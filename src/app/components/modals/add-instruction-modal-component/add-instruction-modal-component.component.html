@@ -1,9 +1,10 @@
 <app-ui-button (btnClick)="openAddInstructionModal()">Додати ТІ</app-ui-button>
 <app-ui-modal
   [(isOpen)]="isAddInstructionModalOpen"
-  width="600"
+  width="800"
 >
-  <p class="developer">{{ user()?.workshop }}; {{ user()?.department }}; {{ user()?.section }}; {{ user()?.unit }} {{user()?.title}}</p>
+  <p class="developer">{{ user()?.workshop }}; {{ user()?.department }}; {{ user()?.section }}
+    ; {{ user()?.unit }} {{ user()?.title }}</p>
   <form class="form" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
     <fieldset class="form__fieldset">
       <label class="form__label">Введіть № ТІ</label>
@@ -22,8 +23,32 @@
       <input class="form__file" type="file" name="file" (change)="onFileSelected($event)"/>
     </fieldset>
     <fieldset class="form__fieldset">
-      <label class="form__label">Примітки</label>
+      <label class="form__label">Теги</label>
       <textarea class="form__textarea" type="text" name="tegs" [(ngModel)]="formData.tegs"></textarea>
+    </fieldset>
+    <fieldset class="form__fieldset form__docs">
+      <label class="form__label">Повʼязані документи</label>
+      <div class="docs_wrapper">
+        <select style="padding: 0 4px" #docsSelect class="docs_select">
+          <option class="docs_option" value="-1" selected></option>
+          @for (instructions of instructions(); track instructions.id) {
+            <option class="docs_option"  [value]="instructions.id">{{ instructions.number }}. {{ instructions.title }}
+            </option>
+          }
+        </select>
+        <app-ui-button type="button" (btnClick)="addRelDoc()">Додати</app-ui-button>
+      </div>
+
+      @for (relatedDoc of relatedDocs(); track relatedDoc.id) {
+        <div class="docs_list">
+          <p class="doc_title" [id]="relatedDoc.id">{{ relatedDoc.number }}. {{ relatedDoc.title }}</p>
+          <app-ui-button type="button" (btnClick)="delRelDoc(relatedDoc.id)">
+            Видалити
+          </app-ui-button>
+        </div>
+      }
+
+
     </fieldset>
     @for (protocol of protocols(); track protocol.title) {
       <div class="form__protocols existing">

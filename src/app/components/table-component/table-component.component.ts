@@ -76,7 +76,6 @@ export class TableComponentComponent {
   isRegisteredProtocolModalOpen = signal(false)
   isRegProtTableModalOpen = signal(false)
 
-
   sortByNumberClick = output<void>()
   sortByTitleClick = output<void>()
   sortByDateClick = output<void>()

@@ -50,7 +50,7 @@ const uploadFile = (req, res) => {
     return res.status(400).json({error: "No file uploaded"});
   }
 
-  const {number, title, date, tegs, user_id, protocols} = req.body;
+  const {number, title, date, tegs, user_id, protocols, relatedDocsIds} = req.body;
 
   const path_word = path
     .relative(path.join(__dirname, "../"), req.file.path)
@@ -76,11 +76,10 @@ const uploadFile = (req, res) => {
       return res.status(500).json({error: "Transaction error"});
     }
 
-    // 1. Вставляем инструкцию
     const sqlInstruction = `
       INSERT INTO instructions
-        (number, title, date, tegs, user_id, path_pdf, path_word)
-      VALUES (?, ?, ?, ?, ?, ?, ?)
+        (number, title, date, tegs, user_id, path_pdf, path_word, relatedDocsIds)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `;
     const instructionParams = [
       number,
@@ -90,6 +89,7 @@ const uploadFile = (req, res) => {
       user_id,
       path_pdf,
       path_word,
+      relatedDocsIds
     ];
 
     db.query(sqlInstruction, instructionParams, (err, result) => {
@@ -103,7 +103,6 @@ const uploadFile = (req, res) => {
       const instructionId = result.insertId;
       const protocolIds = [];
 
-      // Если нет протоколов — сразу коммитим
       if (!parsedProtocols.length) {
         return db.commit((err) => {
           if (err) {
@@ -115,7 +114,6 @@ const uploadFile = (req, res) => {
         });
       }
 
-      // Вспомогательные функции для вставки деталей протокола
       const insertJobs = (jobs, protoId, cb) => {
         if (!jobs?.length) return cb();
 
@@ -135,7 +133,7 @@ const uploadFile = (req, res) => {
               [protoId, job.number, desc],
               (err) => {
                 if (err) return cb(err);
-                nextDesc(); // рекурсивно вставляем следующее описание
+                nextDesc();
               }
             );
           };
@@ -184,10 +182,8 @@ const uploadFile = (req, res) => {
         next();
       };
 
-      // Функция для последовательной вставки протоколов
       const insertProtocol = (index) => {
         if (index >= parsedProtocols.length) {
-          // Все протоколы вставлены → коммит
           return db.commit((err) => {
             if (err) {
               return db.rollback(() => {
@@ -228,7 +224,6 @@ const uploadFile = (req, res) => {
           const protocolId = protoResult.insertId;
           protocolIds.push(protocolId);
 
-          // Вставляем jobs → extraInfo → equipmentInfo последовательно
           insertJobs(proto.jobs, protocolId, (err) => {
             if (err)
               return db.rollback(() => {
@@ -250,7 +245,6 @@ const uploadFile = (req, res) => {
                     res.status(500).json({error: "Database error"});
                   });
 
-                // Переходим к следующему протоколу
                 insertProtocol(index + 1);
               });
             });

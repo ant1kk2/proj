@@ -1,11 +1,18 @@
 <app-ui-modal [(isOpen)]="isManageInstructionModalOpen" width="700">
   <h3 class="modal_title">
-    {{currentInstruction()!.number}}. {{ currentInstruction()!.title }}
+    {{ currentInstruction()!.number }}. {{ currentInstruction()!.title }}
   </h3>
   <div class="modal_inst-info">
-    <p class="modal_text">Дата затвердження: {{currentInstruction()!.date | date : 'dd.MM.yyyy'}}</p>
-    <p class="modal_text">Розробник: {{currentInstruction()!.user_title}} (тел. {{userPhone()}})</p>
-    <p class="modal_text">Теги: {{currentInstruction()!.tegs}}</p>
+    <p class="modal_text">Дата затвердження: {{ currentInstruction()!.date | date : 'dd.MM.yyyy' }}</p>
+    <p class="modal_text">Розробник: {{ currentInstruction()!.user_title }} (тел. {{ userPhone() }})</p>
+    <p class="modal_text">Теги: {{ currentInstruction()!.tegs }}</p>
+    @if (relatedDocs().length !== 0) {
+      <p class="modal_text">Повʼязані документи: <br>
+        @for (doc of relatedDocs(); track doc.id) {
+          <a [href]="doc.path_word">{{ $index + 1 }}. {{ doc.title }}</a>
+        }
+      </p>
+    }
   </div>
   @if (protocols().length !== 0) {
     <table class="table">

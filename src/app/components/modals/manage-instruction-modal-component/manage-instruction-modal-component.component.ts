@@ -6,6 +6,7 @@ import {Protocol} from '../../../interfaces/protocol';
 import {GetProtocolsService} from '../../../services/get-protocols.service';
 import {DatePipe} from '@angular/common';
 import {GetUserPhoneService} from '../../../services/get-user-phone.service';
+import {InstructionsByIdService} from '../../../services/instructions.service';
 
 @Component({
   selector: 'app-manage-instruction-modal-component',
@@ -28,6 +29,7 @@ export class ManageInstructionModalComponentComponent {
   instructionId = model.required<number>()
   protocolTemplateId = model.required<number>()
   userPhone = signal<string>("")
+  relatedDocs = signal<Instruction[]>([])
 
   protocols = signal<Protocol[]>([]);
   loading = signal(false);
@@ -35,6 +37,7 @@ export class ManageInstructionModalComponentComponent {
 
   private getProtocolsService = inject(GetProtocolsService);
   private getUserPhoneService = inject(GetUserPhoneService);
+  private getInstructionsByIdService = inject(InstructionsByIdService);
 
   constructor() {
     effect(() => {
@@ -42,8 +45,9 @@ export class ManageInstructionModalComponentComponent {
         if (this.currentInstruction().id) {
           this.loadProtocols(this.currentInstruction().id);
           this.loadPhone(this.currentInstruction().id)
+          this.loadRelatedDocsInstructions(this.currentInstruction().relatedDocsIds)
+          this.relatedDocs.set([])
         }
-        console.log(this.currentInstruction())
       } else {
         this.protocols.set([]);
         this.error.set(null);
@@ -73,13 +77,31 @@ export class ManageInstructionModalComponentComponent {
       .subscribe({
         next: (data) => {
           this.userPhone.set(data);
-          console.log(this.userPhone())
         },
         error: (err) => {
           console.error(err);
           this.error.set('Помилка завантаження номеру');
         }
       });
+  }
+
+  private loadRelatedDocsInstructions(ids: string | undefined) {
+    if (!ids) return
+    const relatedDocsIds = ids.split(',');
+    relatedDocsIds.forEach(docId => {
+      this.getInstructionsByIdService.getInstructionsById(+docId)
+        .subscribe({
+          next: (data) => {
+            this.relatedDocs.update((d) => [...d, ...data]);
+            this.loading.set(false);
+          },
+          error: (err) => {
+            console.error(err);
+            this.error.set('Помилка завантаження протоколiв');
+            this.loading.set(false);
+          }
+        });
+    })
   }
 
   openRegProtocolModal(protocol: Protocol) {

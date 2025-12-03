@@ -38,3 +38,28 @@
     grid-template-columns: 1fr auto auto;
   }
 }
+
+.docs_wrapper{
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+  justify-content: space-between;
+}
+
+.docs_select{
+  max-width: 650px;
+  border-radius: 5px;
+}
+
+.docs_list{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  column-gap: 10px;
+}
+
+.doc_title{
+  background-color: var(--light-color);
+  padding: 4px 10px;
+  border-radius: 5px;
+}

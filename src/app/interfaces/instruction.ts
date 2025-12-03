@@ -13,4 +13,6 @@ export interface Instruction {
   path_pdf: string | null;
   path_word: string | null;
   colour?: string;
+  relatedDocsIds?: string
 }
+

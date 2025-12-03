@@ -37,7 +37,8 @@ const getInstructionsByWorkshop = (req, res) => {
     w.title AS workshop_title,
     i.tegs,
     NULL AS path_pdf,
-    i.path_word
+    i.path_word,
+    i.relatedDocsIds
     FROM instructions i
       JOIN users u ON i.user_id = u.id
       LEFT JOIN units un ON u.unit_id = un.id
@@ -68,6 +69,7 @@ const getInstructionsByDepartment = (req, res) => {
                       w.title AS workshop_title,
                       i.tegs,
                       NULL AS path_pdf,
+                      i.relatedDocsIds,
                       i.path_word
                 FROM instructions i
                   JOIN users u
@@ -101,7 +103,8 @@ const getInstructionsBySection = (req, res) => {
                       w.title AS workshop_title,
                       i.tegs,
                       NULL AS path_pdf,
-                      i.path_word
+                      i.path_word,
+i.relatedDocsIds
                FROM instructions i
                  JOIN users u
                ON i.user_id = u.id
@@ -133,7 +136,8 @@ const getInstructionsByUnit = (req, res) => {
     w.title AS workshop_title,
     i.tegs,
     NULL AS path_pdf,
-    i.path_word
+    i.path_word,
+i.relatedDocsIds
                FROM instructions i
                  JOIN users u
                ON i.user_id = u.id

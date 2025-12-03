@@ -29,7 +29,6 @@ const getUser = (req, res) => {
 
 const getPhone = (req, res) => {
   const { id } = req.query;
-  console.log(id)
   const sql = `SELECT u.phone
                FROM instructions i
                       JOIN users u ON i.user_id = u.id
