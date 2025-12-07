@@ -1,4 +1,4 @@
-import {Component, effect, inject, input, model, signal} from '@angular/core';
+import {Component, effect, ElementRef, inject, input, model, signal, viewChildren} from '@angular/core';
 import {UiModalComponent} from '../../../UIComponents/ui-modal/ui-modal.component';
 import {GetProtocolsService} from '../../../services/get-protocols.service';
 import {Measurement, Protocol} from '../../../interfaces/protocol';
@@ -27,7 +27,8 @@ export class RegProtTableModalComponentComponent {
   error = signal<string | null>(null);
   currentInstruction = model.required<Instruction>()
 
-  protocol = signal<Protocol[] | null>(null)
+  protocol = signal<Protocol[] | null>(null);
+  originProtocol = signal<Protocol[] | null>(null);
 
   protocolTemplate = signal<Protocol | null>(null)
   instruction = signal<Instruction | null>(null)
@@ -91,7 +92,7 @@ export class RegProtTableModalComponentComponent {
       .subscribe({
         next: (data) => {
           this.protocol.set(this.divideProtocol(data[0], this.protocolTemplate()!));
-          console.log(this.protocol())
+          this.originProtocol.set(this.divideProtocol(data[0], this.protocolTemplate()!));
         },
         error: (err) => {
           console.error(err);
@@ -134,13 +135,14 @@ export class RegProtTableModalComponentComponent {
     return protocols;
   }
 
-  getEquipmentInfoDisplay(equipment: any): string {
-    if (!equipment) return '';
+  getEquipmentInfoDisplay(equipment: any): { text: string, hasNote: boolean } {
+    if (!equipment) return {text:"", hasNote: false};
     const note = equipment.note?.trim();
-    return Object.entries(equipment)
+    return { text: Object.entries(equipment)
       .filter(([k]) => k !== 'note')
       .map(([_, v]) => note ? `${v} (${note})` : `${v}`)
-      .join(' ');
+      .join(' '),
+      hasNote: !!note }
   }
 
   getJobDisplay(job: ProtocolJob): { text: string, hasNote: boolean }[] {
@@ -164,7 +166,129 @@ export class RegProtTableModalComponentComponent {
 
   showMeasurements(measurementsArray: Measurement[]) {
     this.measurementsArray.set(measurementsArray)
-  } 
+  }
+
+
+
+
+
+
+
+
+
+  selectedEquipment = new Set<number>();
+  selectedExtra = new Set<number>();
+  selectedJobs = new Set<string>();
+
+
+  onEquipmentCheckboxChange(i: number) {
+    if (this.selectedEquipment.has(i)) {
+      this.selectedEquipment.delete(i);
+    } else {
+      this.selectedEquipment.add(i);
+    }
+
+    this.applyFilter();
+  }
+
+  onExtraCheckboxChange(i: number) {
+    if (this.selectedExtra.has(i)) {
+      this.selectedExtra.delete(i);
+    } else {
+      this.selectedExtra.add(i);
+    }
+    this.applyFilter();
+  }
+
+  onJobCheckboxChange(m: number, j: number) {
+    const key = `${m}-${j}`;
+
+    if (this.selectedJobs.has(key)) {
+      this.selectedJobs.delete(key);
+    } else {
+      this.selectedJobs.add(key);
+    }
+
+    this.applyFilter();
+  }
+
+  applyFilter() {
+    const equipmentIdx = Array.from(this.selectedEquipment);
+    const extraIdx = Array.from(this.selectedExtra);
+    const jobIdx = Array.from(this.selectedJobs);
+
+    const source = this.originProtocol();
+    if (!source) return;
+
+    // если нет ни одного фильтра
+    if (
+      equipmentIdx.length === 0 &&
+      extraIdx.length === 0 &&
+      jobIdx.length === 0
+    ) {
+      this.protocol.set(source);
+      return;
+    }
+
+    const filtered = source.filter(p => {
+      // equipment filter
+      const okEquipment =
+        equipmentIdx.length === 0 ||
+        equipmentIdx.every(i =>
+          this.getEquipmentInfoDisplay(p.equipmentInfo![i]).hasNote
+        );
+
+      // extra filter
+      const okExtra =
+        extraIdx.length === 0 ||
+        extraIdx.every(i =>
+          this.getEquipmentInfoDisplay(p.extraInfo![i]).hasNote
+        );
+
+      // jobs filter
+      const okJobs =
+        jobIdx.length === 0 ||
+        jobIdx.every(key => {
+          const [m, j] = key.split('-').map(Number);
+          return this.getJobDisplay(p.jobs[m])[j].hasNote;
+        });
+
+      return okEquipment && okExtra && okJobs;
+    });
+
+    this.protocol.set(filtered);
+  }
+
+
+
+
+
+  // onCheckboxChange(e: Event){
+  //   const inputEl: HTMLInputElement = e.target as HTMLInputElement;
+  //
+  //   let next = inputEl.parentElement?.parentElement?.nextElementSibling;
+  //   const result = [];
+  //
+  //   while (next) {
+  //     result.push(next);
+  //     next = next.nextElementSibling;
+  //   }
+  //
+  //   const indexes: number[] = [];
+  //
+  //   result.forEach((element, index) => {
+  //     if (element.classList.contains("coloured")) {
+  //       indexes.push(index);
+  //     }
+  //   });
+  //
+  //   this.protocol.update(old =>
+  //     old ? old.filter((_, i) => indexes.includes(i)) : old
+  //   );
+  //
+  //   console.log(result);
+  //   console.log(this.protocol())
+  // }
 
   protected readonly Object = Object;
 }

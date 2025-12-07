@@ -7,11 +7,10 @@
     <p class="modal_text">Розробник: {{ currentInstruction()!.user_title }} (тел. {{ userPhone() }})</p>
     <p class="modal_text">Теги: {{ currentInstruction()!.tegs }}</p>
     @if (relatedDocs().length !== 0) {
-      <p class="modal_text">Повʼязані документи: <br>
+      <p class="modal_text">Повʼязані документи:</p>
         @for (doc of relatedDocs(); track doc.id) {
-          <a [href]="doc.path_word">{{ $index + 1 }}. {{ doc.title }}</a>
+          <a [href]="doc.path_word">{{ $index + 1 }}. {{ doc.title }}</a> <br>
         }
-      </p>
     }
   </div>
   @if (protocols().length !== 0) {

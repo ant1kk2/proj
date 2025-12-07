@@ -1,5 +1,6 @@
-<app-ui-modal [(isOpen)]="isRegProtTableModalOpen" width="950">
-  <h2 class="protocol__title">{{protocol()?.[0]?.title}}</h2>
+<app-ui-modal [(isOpen)]="isRegProtTableModalOpen" width="1100">
+  <h2 class="protocol__title">{{ protocol()?.[0]?.title }}</h2>
+
   <div class="protocol">
 
     <table class="protocol__table">
@@ -13,9 +14,17 @@
           @if (protocolTemplate()?.equipmentInfo?.length === 1) {
             <tr class="protocol__tr">
               <th class="protocol__th" style="font-size: 10px">Роботи згiдно {{ instruction()?.number }}</th>
-              <th class="protocol__th longcell">{{ protocolTemplate()?.equipmentInfo?.[0] }}</th>
+              <th class="protocol__th longcell">
+                <div class="th-with-input">
+                    <span>
+                      {{ protocolTemplate()?.equipmentInfo?.[0] }}
+                    </span>
+                  <input (change)="onEquipmentCheckboxChange(0)" type="checkbox">
+                </div>
+              </th>
               @for (protocol of protocol(); track $index) {
-                <th class="protocol__th longcell">{{ getEquipmentInfoDisplay(protocol.equipmentInfo![0]) }}</th>
+                <th [class.coloured]="getEquipmentInfoDisplay(protocol.equipmentInfo![0]).hasNote"
+                    class="protocol__th longcell">{{ getEquipmentInfoDisplay(protocol.equipmentInfo![0]).text }}</th>
               }
             </tr>
           } @else {
@@ -24,20 +33,35 @@
                   [attr.rowspan]="protocolTemplate()?.equipmentInfo?.length">
                 Роботи згiдно {{ instruction()?.number }}
               </th>
-              <th class="protocol__th longcell">{{ protocolTemplate()?.equipmentInfo?.[0] }}</th>
+
+              <th class="protocol__th longcell">
+                <div class="th-with-input">
+                    <span>
+                      {{ protocolTemplate()?.equipmentInfo?.[0] }}
+                    </span>
+                  <input (change)="onEquipmentCheckboxChange(0)" type="checkbox">
+                </div>
+              </th>
               @for (protocol of protocol(); track $index) {
-                <th class="protocol__th longcell">
-                  {{ getEquipmentInfoDisplay(protocol.equipmentInfo![0]) }}
+                <th [class.coloured]="getEquipmentInfoDisplay(protocol.equipmentInfo![0]).hasNote" class="protocol__th longcell">
+                  {{ getEquipmentInfoDisplay(protocol.equipmentInfo![0]).text }}
                 </th>
               }
             </tr>
             @for (equipment of protocolTemplate()?.equipmentInfo; let i = $index; track $index) {
               @if (i > 0) {
                 <tr class="protocol__tr">
-                  <th class="protocol__th longcell">{{ equipment }}</th>
+                  <th class="protocol__th longcell">
+                    <div class="th-with-input">
+                      <span>
+                        {{ equipment }}
+                      </span>
+                      <input (change)="onEquipmentCheckboxChange(i)" type="checkbox">
+                    </div>
+                  </th>
                   @for (protocol of protocol(); track $index) {
-                    <th class="protocol__th longcell" style="text-align: center">
-                      {{ getEquipmentInfoDisplay(protocol.equipmentInfo![i]) }}
+                    <th [class.coloured]="getEquipmentInfoDisplay(protocol.equipmentInfo![i]).hasNote" class="protocol__th longcell" style="text-align: center">
+                      {{ getEquipmentInfoDisplay(protocol.equipmentInfo![i]).text }}
                     </th>
                   }
                 </tr>
@@ -55,25 +79,50 @@
           @if (jobTemplate.jobsDesc.length === 1) {
             <tr class="protocol__tr">
               <td class="protocol__td">{{ jobTemplate.number }}</td>
-              <td class="protocol__td" [attr.data-job-number]="jobTemplate.number">{{ jobTemplate.jobsDesc[0] }}</td>
+              <td class="protocol__td" [attr.data-job-number]="jobTemplate.number">
+                <div class="th-with-input">
+                  <span>
+                    {{ jobTemplate.jobsDesc[0] }}
+                  </span>
+                  <input (change)="onJobCheckboxChange(m, 0)" type="checkbox">
+                </div>
+              </td>
               @for (protocol of protocol(); let i = $index; track i) {
-                 <td [class.coloured]="getJobDisplay(protocol.jobs[m])[0].hasNote" class="protocol__td longcell" style="text-align: center">{{getJobDisplay(protocol.jobs[m])[0].text}}</td>
+                <td [class.coloured]="getJobDisplay(protocol.jobs[m])[0].hasNote" class="protocol__td longcell"
+                    style="text-align: center">{{ getJobDisplay(protocol.jobs[m])[0].text }}
+                </td>
               }
             </tr>
           } @else {
             <tr class="protocol__tr">
               <td class="protocol__td" [attr.rowspan]="jobTemplate.jobsDesc.length">{{ jobTemplate.number }}</td>
-              <td class="protocol__td" [attr.data-job-number]="jobTemplate.number">{{ jobTemplate.jobsDesc[0] }}</td>
+              <td class="protocol__td" [attr.data-job-number]="jobTemplate.number">
+                <div class="th-with-input">
+                  <span>
+                    {{ jobTemplate.jobsDesc[0] }}
+                  </span>
+                  <input (change)="onJobCheckboxChange(m, 0)" type="checkbox">
+                </div>
+              </td>
               @for (protocol of protocol(); let i = $index; track i) {
-                <td [class.coloured]="getJobDisplay(protocol.jobs[m])[0].hasNote" class="protocol__td longcell">{{ getJobDisplay(protocol.jobs[m])[0].text}}</td>
+                <td [class.coloured]="getJobDisplay(protocol.jobs[m])[0].hasNote"
+                    class="protocol__td longcell">{{ getJobDisplay(protocol.jobs[m])[0].text }}
+                </td>
               }
             </tr>
             @for (jobDesc of jobTemplate.jobsDesc; let j = $index; track j) {
               @if (j > 0) {
                 <tr class="protocol__tr">
-                  <td class="protocol__td longcell" [attr.data-job-number]="jobTemplate.number">{{ jobDesc }}</td>
+                  <td class="protocol__td longcell" [attr.data-job-number]="jobTemplate.number">
+                    <div class="th-with-input">
+                      <span>{{ jobDesc }}</span>
+                      <input (change)="onJobCheckboxChange(m, j)" type="checkbox">
+                    </div>
+                  </td>
                   @for (protocol of protocol(); let i = $index; track i) {
-                    <td [class.coloured]="getJobDisplay(protocol.jobs[m])[j].hasNote" class="protocol__td longcell" style="text-align: center">{{getJobDisplay(protocol.jobs[m])[j].text}}</td>
+                    <td [class.coloured]="getJobDisplay(protocol.jobs[m])[j].hasNote" class="protocol__td longcell"
+                        style="text-align: center">{{ getJobDisplay(protocol.jobs[m])[j].text }}
+                    </td>
                   }
                 </tr>
               }
@@ -86,27 +135,49 @@
         @if (protocolTemplate()?.extraInfo?.length === 1) {
           <tr class="protocol__tr">
             <td class="protocol__td"></td>
-            <td class="protocol__td">{{ protocolTemplate()?.extraInfo?.[0] }}</td>
+            <td class="protocol__td">
+              <div class="th-with-input">
+                    <span>
+                     {{ protocolTemplate()?.extraInfo?.[0] }}
+                    </span>
+                <input (change)="onExtraCheckboxChange(0)" type="checkbox">
+              </div>
+            </td>
             @for (protocol of protocol(); track $index) {
-              <td class="protocol__td longcell">{{ getEquipmentInfoDisplay(protocol.extraInfo![0]) }}</td>
+              <td [class.coloured]="getEquipmentInfoDisplay(protocol.extraInfo![0]).hasNote" class="protocol__td longcell">{{ getEquipmentInfoDisplay(protocol.extraInfo![0]).text }}</td>
             }
           </tr>
         } @else {
           @if (protocolTemplate()?.extraInfo && protocolTemplate()?.extraInfo!.length > 1) {
             <tr class="protocol__tr">
               <td class="protocol__td" [attr.rowspan]="protocolTemplate()?.extraInfo?.length"></td>
-              <td class="protocol__td">{{ protocolTemplate()?.extraInfo?.[0] }}</td>
+              <td class="protocol__td">
+                <div class="th-with-input">
+                    <span>
+                     {{ protocolTemplate()?.extraInfo?.[0] }}
+                    </span>
+                  <input (change)="onExtraCheckboxChange(0)" type="checkbox">
+                </div>
+              </td>
               @for (protocol of protocol(); track $index) {
-                <td class="protocol__td longcell">{{ getEquipmentInfoDisplay(protocol.extraInfo![0]) }}</td>
+                <td [class.coloured]="getEquipmentInfoDisplay(protocol.extraInfo![0]).hasNote"
+                    class="protocol__td longcell">{{ getEquipmentInfoDisplay(protocol.extraInfo![0]).text }}</td>
               }
             </tr>
             @for (info of protocolTemplate()?.extraInfo; let i = $index; track $index) {
               @if (i > 0) {
                 <tr class="protocol__tr">
-                  <td class="protocol__td longcell">{{ info }}</td>
+                  <td class="protocol__td longcell">
+                    <div class="th-with-input">
+                    <span>
+                     {{ info }}
+                    </span>
+                      <input (change)="onExtraCheckboxChange(i)" type="checkbox">
+                    </div>
+                  </td>
                   @for (protocol of protocol(); track $index) {
-                    <td class="protocol__td longcell"
-                        style="text-align: center">{{ getEquipmentInfoDisplay(protocol.extraInfo![i]) }}
+                    <td class="protocol__td longcell" [class.coloured]="getEquipmentInfoDisplay(protocol.extraInfo![i]).hasNote"
+                        style="text-align: center">{{ getEquipmentInfoDisplay(protocol.extraInfo![i]).text }}
                     </td>
                   }
                 </tr>
@@ -118,7 +189,7 @@
       <tr class="protocol__tr">
         <td class="protocol__td longcell"></td>
         <td class="protocol__td longcell">ЗВТ</td>
-        @for (protocol of protocol(); track $index){
+        @for (protocol of protocol(); track $index) {
           <td class="protocol__td">
             <app-ui-button (btnClick)="showMeasurements(protocol.measurementsArray!)">Показати ЗВТ</app-ui-button>
           </td>
@@ -126,7 +197,7 @@
       </tr>
       </tfoot>
     </table>
-    @if (measurementsArray()?.length){
+    @if (measurementsArray()?.length) {
       <h3 class="protocol__zvt-text">При роботі використовувались ЗВТ:</h3>
       <table class="protocol__zvt-table">
         <thead class="protocol__zvt-thead">
@@ -138,10 +209,10 @@
         <tbody class="protocol__zvt-tbody">
           @for (measurement of measurementsArray(); track $index) {
             <tr class="protocol__zvt-tr">
-              <td class="protocol__zvt-td">{{measurement.title}}</td>
-              <td class="protocol__zvt-td">{{measurement.type}}</td>
-              <td class="protocol__zvt-td">{{measurement.number}}</td>
-              <td class="protocol__zvt-td">{{measurement.date}}</td>
+              <td class="protocol__zvt-td">{{ measurement.title }}</td>
+              <td class="protocol__zvt-td">{{ measurement.type }}</td>
+              <td class="protocol__zvt-td">{{ measurement.number }}</td>
+              <td class="protocol__zvt-td">{{ measurement.date }}</td>
             </tr>
           }
 
