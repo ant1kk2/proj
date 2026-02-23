@@ -15,7 +15,7 @@ import {Protocol, RegisteredProtocol} from '../../../interfaces/protocol';
 import {UiButtonComponent} from '../../../UIComponents/ui-button/ui-button.component';
 import {Instruction} from '../../../interfaces/instruction';
 import {User} from '../../../interfaces/user';
-import {RegisterProtocolService} from '../../../services/register-protocol.service';
+import {ProtocolService} from '../../../services/protocol.service';
 
 @Component({
   selector: 'app-registration-protocol-modal-component',
@@ -74,7 +74,7 @@ export class RegistrationProtocolModalComponent {
     }]
   )
 
-  constructor(private registerService: RegisterProtocolService) {
+  constructor(private protocolService: ProtocolService) {
     effect(() => {
       this.isRegistrationProtocolModalOpen();
       this.equipmentInfoArray.set([]);
@@ -282,7 +282,7 @@ export class RegistrationProtocolModalComponent {
       protocol_template_id: this.protocolTemplateId(),
     }
 
-    this.registerService.sendRegisteredProtocol(protocolData).subscribe({
+    this.protocolService.sendRegisteredProtocol(protocolData).subscribe({
       next: (response) => {
         console.log('✅ Протокол успішно відправлено:', response);
         alert('Протокол успішно зареєстровано!');

@@ -2,7 +2,8 @@
               width="1000">
   <div class="search__container">
     <h3 class="search__text">Введіть дані про обладнання або номер ТІ</h3>
-    <input class="search__input" type="text" name="equipment">
+    <app-ui-input class="search__input" (onInput)="showSearchedValue($event)" inputName="searchEquipment"
+                  iconClass="icon-search"/>
   </div>
   <div class="search__table-container">
     <h3 class="search__text" style="margin-bottom: 5px">Оберіть інструкцію, за якою виконувався ремонт</h3>

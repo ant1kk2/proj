@@ -3,10 +3,10 @@ import {UiModalComponent} from '../../../UIComponents/ui-modal/ui-modal.componen
 import {Instruction} from '../../../interfaces/instruction';
 import {UiButtonComponent} from '../../../UIComponents/ui-button/ui-button.component';
 import {Protocol} from '../../../interfaces/protocol';
-import {GetProtocolsService} from '../../../services/get-protocols.service';
-import {DatePipe} from '@angular/common';
+import {DatePipe, NgClass} from '@angular/common';
 import {GetUserPhoneService} from '../../../services/get-user-phone.service';
-import {InstructionsByIdService} from '../../../services/instructions.service';
+import {InstructionService} from '../../../services/instruction.service';
+import {ProtocolService} from '../../../services/protocol.service';
 
 @Component({
   selector: 'app-manage-instruction-modal-component',
@@ -14,6 +14,7 @@ import {InstructionsByIdService} from '../../../services/instructions.service';
     UiModalComponent,
     UiButtonComponent,
     DatePipe,
+    NgClass,
   ],
   templateUrl: './manage-instruction-modal-component.component.html',
   standalone: true,
@@ -35,9 +36,9 @@ export class ManageInstructionModalComponentComponent {
   loading = signal(false);
   error = signal<string | null>(null);
 
-  private getProtocolsService = inject(GetProtocolsService);
+  private protocolService = inject(ProtocolService);
   private getUserPhoneService = inject(GetUserPhoneService);
-  private getInstructionsByIdService = inject(InstructionsByIdService);
+  private instructionService = inject(InstructionService);
 
   constructor() {
     effect(() => {
@@ -58,7 +59,7 @@ export class ManageInstructionModalComponentComponent {
 
   private loadProtocols(instructionId: number) {
     this.loading.set(true);
-    this.getProtocolsService.getProtocolsByInstructionId(instructionId)
+    this.protocolService.getProtocolsByInstructionId(instructionId)
       .subscribe({
         next: (data) => {
           this.protocols.set(data);
@@ -89,7 +90,7 @@ export class ManageInstructionModalComponentComponent {
     if (!ids) return
     const relatedDocsIds = ids.split(',');
     relatedDocsIds.forEach(docId => {
-      this.getInstructionsByIdService.getInstructionsById(+docId)
+      this.instructionService.getInstructionsById(+docId)
         .subscribe({
           next: (data) => {
             this.relatedDocs.update((d) => [...d, ...data]);

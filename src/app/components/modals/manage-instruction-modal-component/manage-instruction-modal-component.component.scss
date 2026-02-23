@@ -15,10 +15,35 @@
   margin-bottom: 10px;
 }
 
+
 .modal_text:not(:last-child){
   margin-bottom: 10px;
 }
 
+.bordered{
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--dark-color);
+}
+
+.rel-inst-link-text{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  column-gap: 10px;
+}
+
+.rel-inst-link{
+  font-size: 20px;
+  transition-duration: .1s;
+  box-shadow: var(--btn-box-shadow);
+  &:hover{
+    color: var(--light-color);
+  }
+  &:active{
+    color: var(--active-color);
+    transform: translate(1px, 1px);
+  }
+}
 
 .table{
   border: 2px solid black;

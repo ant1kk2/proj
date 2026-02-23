@@ -5,7 +5,7 @@ import {
 import {UiInputComponent} from '../../UIComponents/ui-input/ui-input.component';
 import {debounce} from '../../helpers/debounce';
 import {Instruction} from '../../interfaces/instruction';
-import {InstructionsByQuickSearchService} from '../../services/instructions.service';
+import {InstructionService} from '../../services/instruction.service';
 import {
   AddProtocolModalComponentComponent
 } from '../modals/add-protocol-modal-component/add-protocol-modal-component.component';
@@ -36,7 +36,7 @@ export class HeaderComponentComponent {
   protocols: Protocol[] = [];
   user = input.required<User | null>()
 
-  instructionsByQuickSearchService: InstructionsByQuickSearchService = inject(InstructionsByQuickSearchService);
+  instructionService: InstructionService = inject(InstructionService);
 
   instructions = model<Instruction[]>([]);
 
@@ -51,7 +51,7 @@ export class HeaderComponentComponent {
   }
 
   showInstructionsByQuickSearch(value: string) {
-    this.instructionsByQuickSearchService
+    this.instructionService
       .getInstructionsByQuickSearch(value)
       .subscribe((instructions: Instruction[]) => {
         this.updateInstructions(instructions);
@@ -59,7 +59,7 @@ export class HeaderComponentComponent {
   }
 
   searchDebounced = debounce((value: string) => {
-    // if (value === "") return
+    if (value === "") return
     this.showInstructionsByQuickSearch(value);
   }, 1000);
 

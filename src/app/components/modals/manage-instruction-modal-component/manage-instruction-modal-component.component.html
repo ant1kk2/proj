@@ -1,15 +1,18 @@
 <app-ui-modal [(isOpen)]="isManageInstructionModalOpen" width="700">
-  <h3 class="modal_title">
+  <h3 class="modal_title" >
     {{ currentInstruction()!.number }}. {{ currentInstruction()!.title }}
   </h3>
   <div class="modal_inst-info">
     <p class="modal_text">Дата затвердження: {{ currentInstruction()!.date | date : 'dd.MM.yyyy' }}</p>
     <p class="modal_text">Розробник: {{ currentInstruction()!.user_title }} (тел. {{ userPhone() }})</p>
-    <p class="modal_text">Теги: {{ currentInstruction()!.tegs }}</p>
+    <p class="modal_text" [ngClass]="relatedDocs().length ? 'bordered' : '' ">Теги: {{ currentInstruction()!.tegs }}</p>
     @if (relatedDocs().length !== 0) {
-      <p class="modal_text">Повʼязані документи:</p>
+      <p class="modal_text" style="margin-bottom: 5px">Повʼязані документи:</p>
         @for (doc of relatedDocs(); track doc.id) {
-          <a [href]="doc.path_word">{{ $index + 1 }}. {{ doc.title }}</a> <br>
+          <p class="rel-inst-link-text">
+            <span> {{ $index + 1 }} {{ doc.title }}</span>
+            <a class="icon-folder-download rel-inst-link" [href]="'http://localhost:3000/uploads/' + doc.path_word">  </a> <br>
+          </p>
         }
     }
   </div>

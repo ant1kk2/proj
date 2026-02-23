@@ -1,12 +1,11 @@
-import {Component, effect, ElementRef, inject, input, model, signal, viewChildren} from '@angular/core';
+import {Component, effect, inject, input, model, signal} from '@angular/core';
 import {UiModalComponent} from '../../../UIComponents/ui-modal/ui-modal.component';
-import {GetProtocolsService} from '../../../services/get-protocols.service';
 import {Measurement, Protocol} from '../../../interfaces/protocol';
-import {InstructionsByIdService} from '../../../services/instructions.service';
+import {InstructionService} from '../../../services/instruction.service';
 import {Instruction} from '../../../interfaces/instruction';
-import {GetRegisteredProtocolsService} from '../../../services/get-registered-protocols.service';
 import {ProtocolJob} from '../../../interfaces/protocolJob';
 import {UiButtonComponent} from '../../../UIComponents/ui-button/ui-button.component';
+import {ProtocolService} from '../../../services/protocol.service';
 
 @Component({
   selector: 'app-reg-prot-table-modal-component',
@@ -35,10 +34,8 @@ export class RegProtTableModalComponentComponent {
 
   measurementsArray = signal<Measurement[] | null>(null)
 
-  private getProtocolsService = inject(GetProtocolsService)
-  private getInstructionService = inject(InstructionsByIdService)
-  private getRegisteredProtocolsService = inject(GetRegisteredProtocolsService);
-
+  private protocolService = inject(ProtocolService)
+  private instructionService = inject(InstructionService)
 
   constructor() {
     this.measurementsArray.set(null)
@@ -60,7 +57,7 @@ export class RegProtTableModalComponentComponent {
 
   private loadProtocolTemplate(protocolTemplateId: number) {
     this.loading.set(true);
-    this.getProtocolsService.getProtocolsByTemplateId(protocolTemplateId)
+    this.protocolService.getProtocolsByTemplateId(protocolTemplateId)
       .subscribe({
         next: (data) => {
           this.protocolTemplate.set(data[0]);
@@ -75,7 +72,7 @@ export class RegProtTableModalComponentComponent {
   }
 
   private loadInstruction(instructionId: number) {
-    this.getInstructionService.getInstructionsById(instructionId)
+    this.instructionService.getInstructionsById(instructionId)
       .subscribe({
         next: (data) => {
           this.instruction.set(data[0]);
@@ -88,7 +85,7 @@ export class RegProtTableModalComponentComponent {
   }
 
   private loadRegisteredProtocols(protocolId: number) {
-    this.getRegisteredProtocolsService.getRegisteredProtocolByProtocolId(protocolId)
+    this.protocolService.getRegisteredProtocolByProtocolId(protocolId)
       .subscribe({
         next: (data) => {
           this.protocol.set(this.divideProtocol(data[0], this.protocolTemplate()!));

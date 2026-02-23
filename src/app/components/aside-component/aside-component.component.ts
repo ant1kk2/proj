@@ -6,12 +6,7 @@ import {AsideDataService} from '../../services/asideData.service';
 import {Workshop} from '../../interfaces/asideData';
 import {UiButtonComponent} from '../../UIComponents/ui-button/ui-button.component';
 import {hideSublist} from '../../helpers/hideSublist';
-import {
-  InstructionsByUnitService,
-  InstructionsBySectionService,
-  InstructionsByDepartmentService,
-  InstructionsByWorkshopService
-} from '../../services/instructions.service';
+import {InstructionService} from '../../services/instruction.service';
 import {Instruction} from '../../interfaces/instruction';
 import {setInstructionColour} from '../../helpers/dateDifference';
 
@@ -30,10 +25,7 @@ export class AsideComponentComponent {
   isUnitSelected = model<boolean>(false)
   instructions = model<Instruction[]>([])
 
-  instructionsByWorkshopService: InstructionsByWorkshopService = inject(InstructionsByWorkshopService);
-  instructionsByDepartmentService: InstructionsByDepartmentService = inject(InstructionsByDepartmentService);
-  instructionsBySectionService: InstructionsBySectionService = inject(InstructionsBySectionService);
-  instructionsByUnitService: InstructionsByUnitService = inject(InstructionsByUnitService);
+  instructionService: InstructionService = inject(InstructionService);
 
   constructor() {
     this.asideDataService
@@ -47,7 +39,7 @@ export class AsideComponentComponent {
     const target: HTMLElement = e.target as HTMLElement;
     const workshopId = target.getAttribute('workshop-id');
 
-    this.instructionsByWorkshopService
+    this.instructionService
       .getInstructionsByWorkshopId(+workshopId!)
       .subscribe((instructions: Instruction[]) => {
         this.instructions.set(instructions);
@@ -61,7 +53,7 @@ export class AsideComponentComponent {
     const target: HTMLElement = e.target as HTMLElement;
     const departmentId = target.getAttribute('department-id');
 
-    this.instructionsByDepartmentService
+    this.instructionService
       .getInstructionsByDepartmentId(+departmentId!)
       .subscribe((instructions: Instruction[]) => {
         this.instructions.set(instructions);
@@ -74,7 +66,7 @@ export class AsideComponentComponent {
     const target: HTMLElement = e.target as HTMLElement;
     const sectionId = target.getAttribute('section-id');
 
-    this.instructionsBySectionService
+    this.instructionService
       .getInstructionsBySectiontId(+sectionId!)
       .subscribe((instructions: Instruction[]) => {
         this.instructions.set(instructions);
@@ -87,7 +79,7 @@ export class AsideComponentComponent {
     const target: HTMLElement = e.target as HTMLElement;
     const unitId = target.getAttribute('unit-id');
 
-    this.instructionsByUnitService
+    this.instructionService
       .getInstructionsByUnitId(+unitId!)
       .subscribe((instructions: Instruction[]) => {
         this.instructions.set(instructions);

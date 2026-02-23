@@ -1,9 +1,9 @@
 import {Component, effect, inject, model, signal} from '@angular/core';
 import {UiModalComponent} from '../../../UIComponents/ui-modal/ui-modal.component';
-import {GetRegisteredProtocolsService} from '../../../services/get-registered-protocols.service';
 import {RegProtocol} from '../../../interfaces/protocol';
 import {GetUserByIdService} from '../../../services/get-user-by-id.service';
 import {UiButtonComponent} from '../../../UIComponents/ui-button/ui-button.component';
+import {ProtocolService} from '../../../services/protocol.service';
 
 @Component({
   selector: 'app-registered-protocol-modal-component',
@@ -22,12 +22,12 @@ export class RegisteredProtocolModalComponentComponent {
   instructionId = model.required<number>()
   protocolTemplateId = model.required<number>()
 
-  private getRegisteredProtocolsService = inject(GetRegisteredProtocolsService);
+  private protocolService = inject(ProtocolService);
   private getUserByIdService = inject(GetUserByIdService);
 
   private loadRegisteredProtocols(instrId: number, protTempId: number) {
     this.loading.set(true);
-    this.getRegisteredProtocolsService.getRegisteredProtocolsByInstructionIdAndProtTemplateId(instrId, protTempId)
+    this.protocolService.getRegisteredProtocolsByInstructionIdAndProtTemplateId(instrId, protTempId)
       .subscribe({
         next: (data) => {
           this.protocols.set(data);

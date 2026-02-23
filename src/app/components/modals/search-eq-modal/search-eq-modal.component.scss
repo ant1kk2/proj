@@ -2,14 +2,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  column-gap: 10px;
   margin-bottom: 10px;
 }
 
 .search__input{
-  border-radius: 5px;
-  border: 1px solid black;
   width: 50%;
-  padding: 2px 4px;
+  border-radius: 10px;
 }
 
 .search__table-container{
@@ -38,5 +37,5 @@
   width: 570px;
 }
 .table__head-cell:nth-child(3){
-  width: 150px;
+  width: 158px;
 }

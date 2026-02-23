@@ -1,11 +1,10 @@
 import {Component, computed, effect, ElementRef, inject, input, model, signal, ViewChild} from '@angular/core';
 import {UiButtonComponent} from '../../../UIComponents/ui-button/ui-button.component';
 import {UiModalComponent} from '../../../UIComponents/ui-modal/ui-modal.component';
-import {UploadInstructionService} from '../../../services/upload-instruction.service';
 import {FormsModule} from '@angular/forms';
 import {Protocol} from '../../../interfaces/protocol';
 import {User} from '../../../interfaces/user';
-import {InstructionsAll} from '../../../services/instructions.service';
+import {InstructionService} from '../../../services/instruction.service';
 import {Instruction} from '../../../interfaces/instruction';
 
 @Component({
@@ -38,7 +37,7 @@ export class AddInstructionModalComponentComponent {
   relatedDocs = signal<Instruction[]>([])
   relatedDocsIds = computed<string>(() => this.relatedDocs().map(d => d.id).join(","))
 
-  private InstructionsAllService = inject(InstructionsAll);
+  private instructionService = inject(InstructionService);
 
   openAddInstructionModal() {
     this.isAddInstructionModalOpen.set(true);
@@ -68,7 +67,7 @@ export class AddInstructionModalComponentComponent {
   };
   selectedFile: File | null = null;
 
-  constructor(private uploadInstructionService: UploadInstructionService) {
+  constructor() {
     effect(() => {
       if (this.isAddInstructionModalOpen()) {
         this.loadInstructions();
@@ -107,7 +106,7 @@ export class AddInstructionModalComponentComponent {
       relatedDocsIds: this.relatedDocsIds()
     };
 
-    this.uploadInstructionService.uploadForm(data).subscribe({
+    this.instructionService.uploadForm(data).subscribe({
       next: (response) => {
         console.log(response);
         alert('додано');
@@ -120,7 +119,7 @@ export class AddInstructionModalComponentComponent {
   }
 
   private loadInstructions() {
-    this.InstructionsAllService.getInstructionsAll()
+    this.instructionService.getInstructionsAll()
       .subscribe({
         next: (data) => {
           this.instructions.set(data);
